@@ -1,0 +1,121 @@
+{
+  "project_info": {
+    "project_number": "300964292041",
+    "project_id": "farcabs",
+    "storage_bucket": "farcabs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300964292041:android:b2057004f2e982a600f418",
+        "android_client_info": {
+          "package_name": "com.wings.mile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300964292041-a4dqadmcemi43vjvn6qa1arnd9b42bme.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wings.mile",
+            "certificate_hash": "6eb806a2ba9ebcd88d27d2bcb1ad0f129a8266d2"
+          }
+        },
+        {
+          "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjp3hwr4XQKuOeXLDthmQ_wDXZdRe0QQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300964292041:android:cb28abd1c99519c400f418",
+        "android_client_info": {
+          "package_name": "com.wings.mile.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300964292041-f7p4vkhm4434srp05tcfdotdujimi785.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wings.mile.driver",
+            "certificate_hash": "f83b045d8e6a840afb99afad0d186a3a1d400afb"
+          }
+        },
+        {
+          "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjp3hwr4XQKuOeXLDthmQ_wDXZdRe0QQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300964292041:android:2eb66f7e4748ccf300f418",
+        "android_client_info": {
+          "package_name": "com.wings.miles.user.afar_cabs_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300964292041-1cp4t2tvnrmduuosjv427itv29q27n6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wings.miles.user.afar_cabs_user",
+            "certificate_hash": "d25a1583fb1cd1da49b05c86e88f24b47493ec5c"
+          }
+        },
+        {
+          "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjp3hwr4XQKuOeXLDthmQ_wDXZdRe0QQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
