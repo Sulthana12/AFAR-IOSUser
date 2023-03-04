@@ -58,6 +58,12 @@ dependencies:
   neon_circular_timer: ^0.0.7
   # used for picking on map
   google_maps_place_picker_mb: ^3.0.1
+  # used for rating
+  flutter_rating_bar: ^4.0.1
+  # icon border
+  icon_decoration: ^1.0.1
+  # contact picker
+  flutter_native_contact_picker: ^0.0.3
   # it contains some cool predefined widgets
   getwidget: ^3.0.1
   # below package is used for email otp verification

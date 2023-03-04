@@ -14,10 +14,13 @@ class UserProfileController extends GetxController {
   RxString mobileNum = ''.obs;
   RxString referralCode = ''.obs;
 
+  RxBool userInitialized = false.obs;
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    updateHomeProfile();
+    await updateHomeProfile();
+    userInitialized.value  = true;
   }
 
   Future<void> updateHomeProfile() async {
@@ -55,5 +58,7 @@ class UserProfileController extends GetxController {
       print(userName.value);
       print(mobileNum.value);
     }
+    update();
   }
+
 }

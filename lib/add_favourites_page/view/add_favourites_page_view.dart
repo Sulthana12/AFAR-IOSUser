@@ -13,6 +13,7 @@ import 'package:getwidget/components/floating_widget/gf_floating_widget.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 
+import '../../home_page/controller/location_history_controller.dart';
 import '../controller/chip_controller.dart';
 
 class AddFavouritesPage extends StatelessWidget {
@@ -22,6 +23,7 @@ class AddFavouritesPage extends StatelessWidget {
   final saveLocationController = Get.put(SaveLocationController());
   final searchController = Get.put(PlacesSearchController());
   final googleHomeController = Get.put(GoogleMapHomeController());
+  final locationHistoryController = Get.put(LocationHistoryController());
 
   final List<String> _chipLabel = ['Home', 'Office', 'School', 'Others'];
   final formKey = GlobalKey<FormState>();
@@ -343,6 +345,8 @@ class AddFavouritesPage extends StatelessWidget {
 
                               await controller.getSavedLocationDetails("Others");
                             }
+
+                            await locationHistoryController.getAllSavedLocationData();
                           },
                           child: controller.saveIsLoading.value
                               ? Center(

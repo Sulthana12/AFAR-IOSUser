@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:afar_cabs_user/confirmation_page/controller/distance_sending_api_controller.dart';
 import 'package:afar_cabs_user/constants/sms_config/sms_config.dart';
 import 'package:afar_cabs_user/forgot_password_page/model/forgot_pass.dart';
 import 'package:afar_cabs_user/forgot_password_page/view/change_password_page.dart';
@@ -19,7 +20,9 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../add_favourites_page/model/save_location.dart';
+import '../confirmation_page/model/fare_details.dart';
 import '../enable_location/controller/enable_location_controller.dart';
+import '../home_page/model/location_history.dart';
 import '../home_page/model/vehicles.dart';
 import '../search_screen/controller/places_search_controller.dart';
 import '../sign_in_up_page/controller/sign_up_email_phone_controller.dart';
@@ -52,27 +55,6 @@ class ApiService {
     return null;
   }
 
-  Future<List<GetUserDetails?>?> getBaseVehicleFareDetails() async {
-    String dateTimePicked = homeChipController.dateTimePicked.value.isEmpty
-        ? DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now())
-        : homeChipController.dateTimePicked.value;
-    try {
-      print(dateTimePicked);
-      var url = Uri.parse(
-          '${ApiConstants.baseUrl}${ApiConstants.getBaseVehicleFareDetails}${userProfileController.userID.value}&frmloc=${searchScreenController.controllerStartSearchField.value}&toloc=${searchScreenController.endSearchFieldController.value}&frmlat=${searchScreenController.startPositionLat.value}&frmlong=${searchScreenController.startPositionLong.value}&tolat=${searchScreenController.endPositionLat.value}&tolong=${searchScreenController.endPositionLong.value}&kms=${double.parse(googleMapHomController.distanceKm.value)}&traveltime=$dateTimePicked');
-      var response = await http.get(url);
-      print(response.body);
-      if (response.statusCode == 200) {
-        List<GetUserDetails?>? model = getUserDetailsFromJson(response.body);
-        return model;
-      }
-    } catch (e) {
-      log(e.toString());
-      Get.snackbar("Some error occurred.", e.toString());
-    }
-    return null;
-  }
-
   Future<List<GetMasterVehicleSettings?>?> getMasterVehiclesSettings() async {
     try {
       var url = Uri.parse('${ApiConstants.baseUrl}${ApiConstants.vehiclesUrl}');
@@ -82,6 +64,44 @@ class ApiService {
         List<GetMasterVehicleSettings?>? model =
             getMasterVehicleSettingsFromJson(response.body);
         print(response.body);
+        return model;
+      }
+    } catch (e) {
+      log(e.toString());
+      Get.snackbar("Some error occurred.", e.toString());
+    }
+    return null;
+  }
+
+  Future<List<GetBaseVehicleFareDetails?>?> getBaseVehicleFareDetails() async {
+    String dateTimePicked = homeChipController.dateTimePicked.value.isEmpty
+        ? DateFormat("dd/MM/yyyy HH:mm:ss").format(DateTime.now())
+        : homeChipController.dateTimePickedForApi.value;
+    double fromLat = searchScreenController.startPositionLat.value != 0.0
+        ? searchScreenController.startPositionLat.value
+        : locController.currentLatitude.value;
+    double fromLong = searchScreenController.startPositionLong.value != 0.0
+        ? searchScreenController.startPositionLong.value
+        : locController.currentLongitude.value;
+
+    String kms = googleMapHomController.distanceKmForApi.value;
+    List<String> corKms = kms.split("");
+    corKms.removeLast();
+    corKms.removeLast();
+    corKms.removeLast();
+    print(corKms.join());
+
+    try {
+      print('${ApiConstants.baseUrl}${ApiConstants.getBaseVehicleFareDetails}${userProfileController.userID.value}&frmloc=${searchScreenController.controllerStartSearchField.value}&toloc=${searchScreenController.controllerEndSearchField.value}&frmlat=${fromLat.toString()}&frmlong=${fromLong.toString()}&tolat=${searchScreenController.endPositionLat.value.toString()}&tolong=${searchScreenController.endPositionLong.value.toString()}&kms=${corKms.join()}&traveltime=$dateTimePicked');
+
+      var url = Uri.parse(
+          '${ApiConstants.baseUrl}${ApiConstants.getBaseVehicleFareDetails}${userProfileController.userID.value}&frmloc=${searchScreenController.controllerStartSearchField.value}&toloc=${searchScreenController.controllerEndSearchField.value}&frmlat=${fromLat.toString()}&frmlong=${fromLong.toString()}&tolat=${searchScreenController.endPositionLat.value.toString()}&tolong=${searchScreenController.endPositionLong.value.toString()}&kms=${corKms.join()}&traveltime=$dateTimePicked');
+      // var url = Uri.parse(
+      //     '${ApiConstants.baseUrl}${ApiConstants.getBaseVehicleFareDetails}${userProfileController.userID.value}&frmloc=${searchScreenController.controllerStartSearchField.value}&toloc=${searchScreenController.controllerEndSearchField.value}&frmlat=${fromLat.toString()}&frmlong=${fromLong.toString()}&tolat=${searchScreenController.endPositionLat.value.toString()}&tolong=${searchScreenController.endPositionLong.value.toString()}&kms=144.0&traveltime=$dateTimePicked');
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        print(response.body);
+        List<GetBaseVehicleFareDetails?>? model = getBaseVehicleFareDetailsFromJson(response.body);
         return model;
       }
     } catch (e) {

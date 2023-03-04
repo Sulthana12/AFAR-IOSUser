@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:afar_cabs_user/api_constants/api_services.dart';
+import 'package:afar_cabs_user/components/cancel_ride_model_bsheet.dart';
 import 'package:afar_cabs_user/constants/colors/colors.dart';
 import 'package:afar_cabs_user/enable_location/controller/enable_location_controller.dart';
+import 'package:afar_cabs_user/home_page/controller/home_chip_controller.dart';
 import 'package:afar_cabs_user/search_screen/controller/places_search_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,7 @@ import '../../components/map_utils.dart';
 class GoogleMapHomeController extends GetxController {
   final locController = Get.put(EnableLocationController());
   final searchScreenController = Get.put(PlacesSearchController());
+  final homeChipController = Get.put(HomeChipController());
 
   late CameraPosition initialPosition;
   late LatLng initialCameraPosition;
@@ -40,6 +43,10 @@ class GoogleMapHomeController extends GetxController {
   RxList distanceKmAndTime = [].obs;
   RxString distanceKm = ''.obs;
   RxString distanceTime = ''.obs;
+
+  Map<String, dynamic> jsonApiResponse = {};
+  RxString distanceKmForApi = ''.obs;
+  RxString distanceTimeForApi = ''.obs;
 
   RxBool mounted = false.obs;
   RxBool isLoading = false.obs;
@@ -170,7 +177,7 @@ class GoogleMapHomeController extends GetxController {
     // }
 
     print("getcurrent");
-    controller.animateCamera(
+    await controller.animateCamera(
       CameraUpdate.newLatLngZoom(
         LatLng(locController.currentLatitude.value,
             locController.currentLongitude.value),
@@ -187,6 +194,41 @@ class GoogleMapHomeController extends GetxController {
     update();
   }
 
+  Future<void> getFavoriteAnimatePosi() async {
+    GoogleMapController controller = await googleMainController.future;
+
+    // await locController.getCurrentPosition();
+
+    markers.clear();
+
+    markers.add(Marker(
+      markerId: const MarkerId("1"),
+      position: LatLng(locController.currentLatitude.value,
+          locController.currentLongitude.value),
+      infoWindow: const InfoWindow(
+        title: 'My Current Location',
+      ),
+    ));
+    // }
+
+    print("favorite");
+    await controller.animateCamera(
+      CameraUpdate.newLatLngZoom(
+        LatLng(searchScreenController.startPositionLat.value,
+            searchScreenController.startPositionLong.value),
+        14,
+      ),
+    );
+
+    // /// if current location is there, then set it in the starting field of search bar
+    // if (locController.currentLatitude.value != 0.0) {
+    //   searchScreenController.startSearchFieldController.text =
+    //       locController.currentAddress.value;
+    // }
+
+    update();
+  }
+
   /// This method is used to calculate kms between starting and destination point
   double calculateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
@@ -194,6 +236,18 @@ class GoogleMapHomeController extends GetxController {
         cos((lat2 - lat1) * p) / 2 +
         cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
+  }
+
+  Future<void> getDistanceDetailsForApi() async {
+    jsonApiResponse = await rideDistanceText() ?? {};
+
+    distanceTimeForApi.value =
+    jsonApiResponse['rows'][0]['elements'][0]['duration']['text'];
+
+    distanceKmForApi.value =
+    jsonApiResponse['rows'][0]['elements'][0]['distance']['text'];
+
+    print("Km : " + distanceKmForApi.value);
   }
 
   addPolyLine() {
@@ -244,19 +298,23 @@ class GoogleMapHomeController extends GetxController {
 
     // distance.value = totalDistance;
 
-    jsonResponse = await rideDistanceText() ?? {};
-
-    distanceTime.value =
-        jsonResponse['rows'][0]['elements'][0]['duration']['text'];
-
-    distanceKm.value =
-        jsonResponse['rows'][0]['elements'][0]['distance']['text'];
-
-    print("Km : " + distanceKm.value);
+    await getDistanceDetails();
 
     addPolyLine();
 
     update();
+  }
+
+  Future<void> getDistanceDetails() async {
+    jsonResponse = await rideDistanceText() ?? {};
+
+    distanceTime.value =
+    jsonResponse['rows'][0]['elements'][0]['duration']['text'];
+
+    distanceKm.value =
+    jsonResponse['rows'][0]['elements'][0]['distance']['text'];
+
+    print("Km : " + distanceKm.value);
   }
 
   Future<Map<String, dynamic>?> rideDistanceText() async {
@@ -293,15 +351,16 @@ class GoogleMapHomeController extends GetxController {
 
   Future<void> onCameraDrag() async {
     if (dragCameraPosition != null) {
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(
-          dragCameraPosition!.target.latitude,
-          dragCameraPosition!.target
-              .longitude);
+      if (homeChipController.rideConfirmed.value == false) {
+        List<Placemark> placemarks =
+        await placemarkFromCoordinates(
+            dragCameraPosition!.target.latitude,
+            dragCameraPosition!.target
+                .longitude);
 
-      Placemark place = placemarks[0];
-      //get place name from lat and lang
-      // if (searchScreenController.endPositionLat.value == 0.0) {
+        Placemark place = placemarks[0];
+        //get place name from lat and lang
+        // if (searchScreenController.endPositionLat.value == 0.0) {
         dragLocation.value =
         '${place.name!}, ${place.locality!}, ${place.subLocality}, ${place.administrativeArea}, ${place.subAdministrativeArea}, ${place.street}, ${place.postalCode},';
         locController.currentAddress.value =
@@ -312,12 +371,13 @@ class GoogleMapHomeController extends GetxController {
         searchScreenController.startPositionLong.value = dragCameraPosition!.target.longitude;
 
         searchScreenController.startSearchFieldController.text = locController.currentAddress.value;
-      // }
+        // }
 
-      update();
+        update();
 
-      print(locController.currentAddress.value);
+        print(locController.currentAddress.value);
 
+      }
     }
 
   }

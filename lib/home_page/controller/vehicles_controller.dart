@@ -12,6 +12,7 @@ class VehiclesController extends GetxController {
 
   @override
   void onInit() async {
+    super.onInit();
     await getVehiclesData();
   }
 
@@ -23,12 +24,12 @@ class VehiclesController extends GetxController {
     if (vehiclesModel == null) {
       print("error");
       res = "error";
-      Get.snackbar("Register or enter correct credentials",
-          "Enter correct credentials or else new user means register!");
+      Get.snackbar("Some server side error",
+          "Can't able to fetch the vehicles");
       return res;
     } else {
       res = "success";
-      Get.snackbar("Logged in successfully.", "Welcome to afar cabs!");
+      // Get.snackbar("Logged in successfully.", "Welcome to afar cabs!");
       print(vehiclesModel![0].settingsValue.toString());
       print(vehiclesModel![0].fileLocation.toString());
       print(vehiclesModel!.length);

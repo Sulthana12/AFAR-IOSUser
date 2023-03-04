@@ -1,6 +1,11 @@
+import 'package:afar_cabs_user/rides_page/view/single_ride_detail_page.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../constants/colors/colors.dart';
 
 class RidesPage extends StatelessWidget {
   const RidesPage({Key? key}) : super(key: key);
@@ -21,8 +26,8 @@ class RidesPage extends StatelessWidget {
         // ),
         elevation: 0.0,
         title: Text("Your Rides"),
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -34,7 +39,9 @@ class RidesPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   child: Card(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => RideDetailPage());
+                      },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -144,7 +151,9 @@ class RidesPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   child: Card(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => RideDetailPage());
+                      },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -254,7 +263,9 @@ class RidesPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   child: Card(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => RideDetailPage());
+                      },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -364,7 +375,9 @@ class RidesPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                   child: Card(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => RideDetailPage());
+                      },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

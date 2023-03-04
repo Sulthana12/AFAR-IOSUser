@@ -1,5 +1,7 @@
+import 'package:afar_cabs_user/add_favourites_page/controller/save_location_controller.dart';
 import 'package:afar_cabs_user/api_constants/api_services.dart';
 import 'package:afar_cabs_user/enable_location/view/enable_location_page.dart';
+import 'package:afar_cabs_user/home_page/controller/location_history_controller.dart';
 import 'package:afar_cabs_user/home_page/controller/user_controller.dart';
 import 'package:afar_cabs_user/home_page/view/home_page_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +15,7 @@ import '../../components/auth_methods.dart';
 
 class LoginMailPhoneController extends GetxController {
   final userProfileController = Get.put(UserProfileController());
+  final locationHistoryController = Get.put(LocationHistoryController());
 
   final loginMailController = TextEditingController();
   final loginPassController = TextEditingController();
@@ -57,6 +60,10 @@ class LoginMailPhoneController extends GetxController {
       Get.snackbar("Logged in successfully.", "Welcome to afar cabs!");
 
       isLoading.value = false;
+
+      await locationHistoryController.getAllSavedLocationData();
+
+      update();
     } else {
       Get.snackbar("Register to AFAR CABS", "First register and then login to proceed");
       isLoading.value = false;

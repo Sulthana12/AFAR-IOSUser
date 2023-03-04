@@ -1,6 +1,9 @@
+import 'package:afar_cabs_user/add_favourites_page/controller/save_location_controller.dart';
 import 'package:afar_cabs_user/add_favourites_page/view/my_locations_view.dart';
 import 'package:afar_cabs_user/app_version_page/controller/app_version_controller.dart';
+import 'package:afar_cabs_user/components/cancel_ride_model_bsheet.dart';
 import 'package:afar_cabs_user/components/custom_alert_dialog.dart';
+import 'package:afar_cabs_user/delivery_page/view/your_deliveries_page.dart';
 import 'package:afar_cabs_user/home_page/controller/google_map_controller.dart';
 import 'package:afar_cabs_user/home_page/controller/user_controller.dart';
 import 'package:afar_cabs_user/rides_page/view/your_rides_page.dart';
@@ -23,6 +26,7 @@ class CustomNavigationDrawer extends StatelessWidget {
   final userProfileController = Get.put(UserProfileController());
   final googleMapController = Get.put(GoogleMapHomeController());
   final appVersionController = Get.put(AppVersionController());
+  final saveLocationController = Get.put(SaveLocationController());
 
   CustomNavigationDrawer({
     Key? key,
@@ -103,6 +107,7 @@ class CustomNavigationDrawer extends StatelessWidget {
                 onTap: () {
                   Navigator.pop(context);
 
+                  saveLocationController.homeOrSearchScreen.value = "homepage";
                   Get.to(() => MyLocationsPage());
                 },
               ),
@@ -118,7 +123,12 @@ class CustomNavigationDrawer extends StatelessWidget {
               ListTile(
                   leading: Icon(Icons.menu_rounded),
                   title: const Text('Deliveries'),
-                  onTap: () => Navigator.pop(context)),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  Get.to(() => DeliveriesPage());
+                },
+              ),
             ],
           ),
           ListTile(
@@ -166,6 +176,8 @@ class CustomNavigationDrawer extends StatelessWidget {
                   description: 'Are you sure you want to sign out?',
                   confirmButtonText: 'Confirm',
                   onConfirmButtonPressed: () async {
+                    rideConfirmController.clearDetailsSignOut();
+
                     Get.offAll(() => SignInPage());
                     googleMapController.mounted.value = true;
 

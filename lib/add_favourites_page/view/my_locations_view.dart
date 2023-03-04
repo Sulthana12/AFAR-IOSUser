@@ -3,6 +3,7 @@ import 'package:afar_cabs_user/constants/colors/colors.dart';
 import 'package:afar_cabs_user/home_page/view/home_page_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -28,17 +29,18 @@ class MyLocationsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        title: const Text("My Locations"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          color: Colors.black,
+          color: Colors.white,
           onPressed: () {
             // Get.off(HomePage());
             Navigator.pop(context);
           },
         ),
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -50,271 +52,317 @@ class MyLocationsPage extends StatelessWidget {
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: GetBuilder<SaveLocationController>(
-                  builder: (controller) {
-                    return controller.isMyLocationsLoading.value ?
-                    Center(child: CircularProgressIndicator(color: primaryColor),) :
-                      Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: const Text(
-                            "My Locations",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.8,
+                child:
+                    GetBuilder<SaveLocationController>(builder: (controller) {
+                  return controller.isMyLocationsLoading.value
+                      ? Center(
+                          child: CircularProgressIndicator(color: primaryColor),
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 30.0,
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        Obx(
-                          ()=> ListTile(
-                            title: Text(
-                              "Home",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18.0,
-                              ),
-                            ),
-                            subtitle: Text(
-                              controller.homeAddress.value,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0,
-                              ),
-                            ),
-                            trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
-                                    ),
-                                    color: Colors.black,
-                                    onPressed: () {
-
-                                      controller.homeChoosed.value = true;
-                                      controller.workChoosed.value = false;
-                                      controller.othersChoosed.value = false;
-
-                                      controller.choosedString.value  = "Home";
-
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Obx(
-                                                () => controller.isMapLocationLoading.value
-                                                ? Center(
-                                              child: CircularProgressIndicator(
-                                                color: primaryColor,
-                                              ),
-                                            )
-                                                : PlacePicker(
-                                              enableMyLocationButton: true,
-                                              usePlaceDetailSearch: true,
-                                              autocompleteRadius: 5000,
-                                              // strictbounds: true,
-                                              // autocompleteOffset: 5000,
-                                              region: "in",
-                                              apiKey:
-                                              controller.googleApikey.value,
-                                              onTapBack: () {
-                                                if (controller.onCameraMoveStarted.value) {
-                                                  customAddressShowDialog(context);
-                                                } else {
-                                                  Navigator.pop(context);
-                                                }
-                                              },
-                                              onPlacePicked: (result) {
-                                                controller.afterPlacePicked(result);
-                                              },
-                                                  onCameraMoveStarted: (someValue) {
-                                                controller.onCameraMoveStarted.value = true;
-                                                  },
-                                              initialPosition:
-                                              controller.initialCameraPosition,
-                                              useCurrentLocation: true,
-                                              // selectInitialPosition: true,
-                                              resizeToAvoidBottomInset:
-                                              false, // only works in page mode, less flickery, remove if wrong offsets
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                      },
-                            ),
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            onTap: () {},
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        Obx(
-                          ()=> ListTile(
-                            title: Text(
-                              "Work",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20.0,
-                              ),
-                            ),
-                            subtitle: Text(
-                              controller.workAddress.value,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0,
-                              ),
-                            ),
-                            trailing:IconButton(
+                            Obx(
+                              () => ListTile(
+                                title: Text(
+                                  "Home",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  controller.homeAddress.value,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                                trailing: IconButton(
                                   icon: Icon(
                                     Icons.edit,
                                   ),
                                   color: Colors.black,
                                   onPressed: () {
-
-                                    controller.workChoosed.value = true;
-                                    controller.homeChoosed.value = false;
+                                    controller.homeChoosed.value = true;
+                                    controller.workChoosed.value = false;
                                     controller.othersChoosed.value = false;
 
-                                    controller.choosedString.value  = "Work";
+                                    controller.choosedString.value = "Home";
 
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => Obx(
-                                              () => controller.isMapLocationLoading.value
+                                          () => controller
+                                                  .isMapLocationLoading.value
                                               ? Center(
-                                            child: CircularProgressIndicator(
-                                              color: primaryColor,
-                                            ),
-                                          )
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: primaryColor,
+                                                  ),
+                                                )
                                               : PlacePicker(
-                                            enableMyLocationButton: false,
-                                            usePlaceDetailSearch: true,
-                                            autocompleteRadius: 5000,
-                                            // strictbounds: true,
-                                            // autocompleteOffset: 5000,
-                                            region: "in",
-                                            apiKey:
-                                            controller.googleApikey.value,
-                                            onTapBack: () {
-                                              customAddressShowDialog(context);
-                                            },
-                                            onPlacePicked: (result) {
-                                              controller.afterPlacePicked(result);
-                                            },
-                                            initialPosition:
-                                            controller.initialCameraPosition,
-                                            useCurrentLocation: true,
-                                            // selectInitialPosition: true,
-                                            resizeToAvoidBottomInset:
-                                            false, // only works in page mode, less flickery, remove if wrong offsets
-                                          ),
+                                                  enableMyLocationButton: true,
+                                                  usePlaceDetailSearch: true,
+                                                  autocompleteRadius: 5000,
+                                                  // strictbounds: true,
+                                                  // autocompleteOffset: 5000,
+                                                  region: "in",
+                                                  apiKey: controller
+                                                      .googleApikey.value,
+                                                  onTapBack: () {
+                                                    if (controller
+                                                        .onCameraMoveStarted
+                                                        .value) {
+                                                      customAddressShowDialog(
+                                                          context);
+                                                    } else {
+                                                      Navigator.pop(context);
+                                                    }
+                                                  },
+                                                  onPlacePicked: (result) {
+                                                    controller.afterPlacePicked(
+                                                        result);
+                                                  },
+                                                  onCameraMoveStarted:
+                                                      (someValue) {
+                                                    controller
+                                                        .onCameraMoveStarted
+                                                        .value = true;
+                                                  },
+                                                  initialPosition: controller
+                                                      .initialCameraPosition,
+                                                  useCurrentLocation: true,
+                                                  // selectInitialPosition: true,
+                                                  resizeToAvoidBottomInset:
+                                                      false, // only works in page mode, less flickery, remove if wrong offsets
+                                                ),
                                         ),
                                       ),
-
-                                );
-                              }
-                            ),
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            onTap: () {},
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        Obx(
-                          ()=> ListTile(
-                            title: Text(
-                              "Others",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20.0,
+                                    );
+                                  },
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                onTap: () async {
+                                  if (saveLocationController
+                                          .homeOrSearchScreen.value ==
+                                      "homepage") {
+                                    saveLocationController.setFavouriteLocation(
+                                      context: context,
+                                      favLocName: "home",
+                                    );
+                                  } else {
+                                    saveLocationController.setFavouriteLocation(
+                                      context: context,
+                                      favLocName: "home",
+                                    );
+                                  }
+                                },
                               ),
                             ),
-                            subtitle: Text(
-                              controller.othersAddress.value,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15.0,
-                              ),
+                            const SizedBox(
+                              height: 30.0,
                             ),
-                            trailing: IconButton(
+                            Obx(
+                              () => ListTile(
+                                title: Text(
+                                  "Work",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  controller.workAddress.value,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                                trailing: IconButton(
                                     icon: Icon(
                                       Icons.edit,
                                     ),
                                     color: Colors.black,
                                     onPressed: () {
-
-                                      controller.workChoosed.value = false;
+                                      controller.workChoosed.value = true;
                                       controller.homeChoosed.value = false;
-                                      controller.othersChoosed.value = true;
+                                      controller.othersChoosed.value = false;
 
-                                      controller.choosedString.value  = "Others";
+                                      controller.choosedString.value = "Work";
 
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => Obx(
-                                                () => controller.isMapLocationLoading.value
+                                            () => controller
+                                                    .isMapLocationLoading.value
                                                 ? Center(
-                                              child: CircularProgressIndicator(
-                                                color: primaryColor,
-                                              ),
-                                            )
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: primaryColor,
+                                                    ),
+                                                  )
                                                 : PlacePicker(
-                                              enableMyLocationButton: false,
-                                              usePlaceDetailSearch: true,
-                                              autocompleteRadius: 5000,
-                                              // strictbounds: true,
-                                              // autocompleteOffset: 5000,
-                                              region: "in",
-                                              apiKey:
-                                              controller.googleApikey.value,
-                                              onTapBack: () {
-                                                customAddressShowDialog(context);
-                                              },
-                                              onPlacePicked: (result) {
-                                                controller.afterPlacePicked(result);
-                                              },
-                                              initialPosition:
-                                              controller.initialCameraPosition,
-                                              useCurrentLocation: true,
-                                              // selectInitialPosition: true,
-                                              resizeToAvoidBottomInset:
-                                              false, // only works in page mode, less flickery, remove if wrong offsets
-                                            ),
+                                                    enableMyLocationButton:
+                                                        false,
+                                                    usePlaceDetailSearch: true,
+                                                    autocompleteRadius: 5000,
+                                                    // strictbounds: true,
+                                                    // autocompleteOffset: 5000,
+                                                    region: "in",
+                                                    apiKey: controller
+                                                        .googleApikey.value,
+                                                    onTapBack: () {
+                                                      customAddressShowDialog(
+                                                          context);
+                                                    },
+                                                    onPlacePicked: (result) {
+                                                      controller
+                                                          .afterPlacePicked(
+                                                              result);
+                                                    },
+                                                    initialPosition: controller
+                                                        .initialCameraPosition,
+                                                    useCurrentLocation: true,
+                                                    // selectInitialPosition: true,
+                                                    resizeToAvoidBottomInset:
+                                                        false, // only works in page mode, less flickery, remove if wrong offsets
+                                                  ),
                                           ),
                                         ),
-                                  );
+                                      );
+                                    }),
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                onTap: () {
+                                  if (saveLocationController
+                                          .homeOrSearchScreen.value ==
+                                      "homepage") {
+                                    saveLocationController.setFavouriteLocation(
+                                      context: context,
+                                      favLocName: "work",
+                                    );
+                                  } else {
+                                    saveLocationController.setFavouriteLocation(
+                                      context: context,
+                                      favLocName: "work",
+                                    );
+                                  }
                                 },
+                              ),
                             ),
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(20),
+                            const SizedBox(
+                              height: 30.0,
                             ),
-                            onTap: () {},
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                ),
+                            Obx(
+                              () => ListTile(
+                                title: Text(
+                                  "Others",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  controller.othersAddress.value,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                                trailing: IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                  ),
+                                  color: Colors.black,
+                                  onPressed: () {
+                                    controller.workChoosed.value = false;
+                                    controller.homeChoosed.value = false;
+                                    controller.othersChoosed.value = true;
+
+                                    controller.choosedString.value = "Others";
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Obx(
+                                          () => controller
+                                                  .isMapLocationLoading.value
+                                              ? Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: primaryColor,
+                                                  ),
+                                                )
+                                              : PlacePicker(
+                                                  enableMyLocationButton: false,
+                                                  usePlaceDetailSearch: true,
+                                                  autocompleteRadius: 5000,
+                                                  // strictbounds: true,
+                                                  // autocompleteOffset: 5000,
+                                                  region: "in",
+                                                  apiKey: controller
+                                                      .googleApikey.value,
+                                                  onTapBack: () {
+                                                    customAddressShowDialog(
+                                                        context);
+                                                  },
+                                                  onPlacePicked: (result) {
+                                                    controller.afterPlacePicked(
+                                                        result);
+                                                  },
+                                                  initialPosition: controller
+                                                      .initialCameraPosition,
+                                                  useCurrentLocation: true,
+                                                  // selectInitialPosition: true,
+                                                  resizeToAvoidBottomInset:
+                                                      false, // only works in page mode, less flickery, remove if wrong offsets
+                                                ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                onTap: () {
+                                  if (saveLocationController
+                                          .homeOrSearchScreen.value ==
+                                      "homepage") {
+                                    saveLocationController.setFavouriteLocation(
+                                      context: context,
+                                      favLocName: "others",
+                                    );
+                                  } else {
+                                    saveLocationController.setFavouriteLocation(
+                                      context: context,
+                                      favLocName: "others",
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        );
+                }),
               ),
             ),
           ),

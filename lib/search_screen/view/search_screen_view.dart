@@ -19,6 +19,7 @@ import 'package:intl/intl.dart';
 import '../../add_favourites_page/controller/save_location_controller.dart';
 import '../../add_favourites_page/view/add_favourites_page_view.dart';
 import '../../components/custom_address_show_dialog.dart';
+import '../../confirmation_page/controller/distance_sending_api_controller.dart';
 import '../../confirmation_page/view/confirmation_page.dart';
 import '../../enable_location/controller/enable_location_controller.dart';
 import '../../express_delivery_page/view/express_delivery_page.dart';
@@ -317,8 +318,8 @@ class SearchScreen extends StatelessWidget {
                                       Navigator.pop(context);
                                     }
                                   },
-                                  onPlacePicked: (result) {
-                                    saveLocationController
+                                  onPlacePicked: (result) async {
+                                    await saveLocationController
                                         .afterDestinationPicked(result);
                                   },
                                   onCameraMoveStarted: (someValue) {
@@ -360,6 +361,10 @@ class SearchScreen extends StatelessWidget {
                       color: primaryColor,
                     ),
                     onTap: () {
+                      saveLocationController.homeOrSearchScreen.value = "searchpage";
+
+                      print(saveLocationController.homeOrSearchScreen.value);
+
                       Get.to(() => MyLocationsPage());
                     },
                   ),
@@ -472,6 +477,8 @@ class SearchScreen extends StatelessWidget {
                               if (homeChipController.expressSelected.value) {
                                 Get.to(() => ExpressDeliveryConform());
                               } else {
+                                await googleHomeController.getDistanceDetailsForApi();
+
                                 Get.to(() => ConfirmationPage());
                               }
                             }

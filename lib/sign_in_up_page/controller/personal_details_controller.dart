@@ -198,11 +198,26 @@ class PersonalDetailsController extends GetxController {
       http.Response response = (await apiService.registerUserDetails(body))!;
       print(body.toJson());
       if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
         Get.snackbar(
             "Registered successfully", "You've been registered successfully!");
+
+        String? localUserID;
         int? initScreen;
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        /// Setting the userID to the local storage if register successful
+        print("User ID personal Detials Cont: " + data[0]["outUserId"]);
+        localUserID = prefs.getString("localUserID");
+        await prefs.setString("localUserID", data[0]["outUserId"].toString());
+
+        /// Updating the userID value using the stored userID in the local storage
+        userProfileController.userID.value = (prefs.getString("localUserID") ?? "");
+        print("user profile cont userID: " + userProfileController.userID.value);
+
+        /// Getting the initScreen value to check whether they already signed up or not
         initScreen = prefs.getInt("initScreen");
 
         Get.offAll(() => initScreen == 0 || initScreen == null

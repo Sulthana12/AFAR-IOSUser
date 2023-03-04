@@ -8,6 +8,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../components/cancel_ride_model_bsheet.dart';
 import '../../home_page/controller/user_controller.dart';
 import '../../search_screen/controller/places_search_controller.dart';
 
@@ -472,7 +473,7 @@ class ExpressDeliveryConform extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       final isValidForm = formKey.currentState!.validate();
                       print(expressDelController.controllerNote.value);
 
@@ -482,11 +483,13 @@ class ExpressDeliveryConform extends StatelessWidget {
                               .controllerNote.value.isNotEmpty) {
 
                         homeChipController.rideConfirmed.value = true;
-                        Get.off(() => HomePage());
+                        Get.offAll(() => HomePage());
+                        await cancelRideModalBottomSheet(context, "Cancel Express Delivery");
                       } else if (isValidForm && expressDelController.itemSelected.value.isNotEmpty && expressDelController.itemSelected.value != "others") {
 
                         homeChipController.rideConfirmed.value = true;
-                        Get.off(() => HomePage());
+                        Get.offAll(() => HomePage());
+                        await cancelRideModalBottomSheet(context, "Cancel Express Delivery");
                       } else if (isValidForm &&
                           expressDelController.itemSelected.value == "others" &&
                           expressDelController

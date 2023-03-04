@@ -1,3 +1,5 @@
+import 'package:afar_cabs_user/api_constants/api_services.dart';
+import 'package:afar_cabs_user/home_page/model/location_history.dart';
 import 'package:get/get.dart';
 
 //getx controller class for state management of chips
@@ -29,5 +31,10 @@ class HomeChipController extends GetxController {
   RxString timePicked = ''.obs;
   RxString dateTimePicked = ''.obs;
 
+  RxString datePickedForApi = ''.obs;
+  RxString timePickedForApi = ''.obs;
+  RxString dateTimePickedForApi = ''.obs;
+
   RxBool rideConfirmed = false.obs;
+
 }
