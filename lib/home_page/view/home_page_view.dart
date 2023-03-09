@@ -67,8 +67,7 @@ class HomePage extends StatelessWidget {
                             googleMapController.initialPosition!,
                         polylines: Set<Polyline>.of(
                             googleMapController.polylines.values),
-                        // on below line setting user location enabled.
-                        // myLocationEnabled: true,
+                        myLocationButtonEnabled: false,
                         onCameraMove:
                             // searchScreenController.endPositionLat.value == 0
                             (CameraPosition cameraPosition) {
