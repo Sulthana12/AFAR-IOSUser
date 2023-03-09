@@ -1,26 +1,22 @@
 import 'package:afar_cabs_user/add_favourites_page/controller/save_location_controller.dart';
 import 'package:afar_cabs_user/add_favourites_page/view/my_locations_view.dart';
 import 'package:afar_cabs_user/app_version_page/controller/app_version_controller.dart';
+import 'package:afar_cabs_user/app_version_page/view/current_version_dialog_view.dart';
 import 'package:afar_cabs_user/components/cancel_ride_model_bsheet.dart';
-import 'package:afar_cabs_user/components/custom_alert_dialog.dart';
+import 'package:afar_cabs_user/constants/colors/colors.dart';
 import 'package:afar_cabs_user/delivery_page/view/your_deliveries_page.dart';
 import 'package:afar_cabs_user/home_page/controller/google_map_controller.dart';
 import 'package:afar_cabs_user/home_page/controller/user_controller.dart';
+import 'package:afar_cabs_user/refer_a_friend_page/view/refer_a_friend_view.dart';
 import 'package:afar_cabs_user/rides_page/view/your_rides_page.dart';
+import 'package:afar_cabs_user/settings_page/view/settings_page_view.dart';
 import 'package:afar_cabs_user/sign_in_up_page/view/sign_in_page.dart';
 import 'package:blurry/blurry.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../about_us_page/view/about_us_view.dart';
-import '../app_version_page/view/current_version_dialog_view.dart';
-import '../constants/colors/colors.dart';
-import '../refer_a_friend_page/view/refer_a_friend_view.dart';
-import '../settings_page/view/settings_page_view.dart';
 
 class CustomNavigationDrawer extends StatelessWidget {
   final userProfileController = Get.put(UserProfileController());
@@ -32,63 +28,25 @@ class CustomNavigationDrawer extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            color: primaryColor,
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Colors.white,
-                  backgroundImage: AssetImage("assets/images/default.png"),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Obx(
-                  () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userProfileController.userName.value.isNotEmpty
-                            ? userProfileController.userName.value
-                            : "AFAR User",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 4.0,
-                      ),
-                      Text(
-                        userProfileController.mobileNum.value.isNotEmpty
-                            ? "+91 ${userProfileController.mobileNum.value}"
-                            : "",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
+      child: Material(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24.0, 24, 24, 0),
+          child: ListView(
+            children: [
+              headerWidget(),
+              const SizedBox(height: 40,),
+              const Divider(thickness: 1, height: 10, color: Colors.grey,),
+              const SizedBox(height: 40,),
+              ListTile(
+            leading: const Icon(Icons.home),
             title: const Text('Home'),
             onTap: () => Navigator.pop(context),
           ),
           ExpansionTile(
-            leading: Icon(Icons.local_activity),
+            leading: const Icon(Icons.local_activity),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 10.0,
@@ -102,7 +60,7 @@ class CustomNavigationDrawer extends StatelessWidget {
             ),
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.menu_rounded),
+                leading: const Icon(Icons.menu_rounded),
                 title: const Text('Locations'),
                 onTap: () {
                   Navigator.pop(context);
@@ -112,35 +70,35 @@ class CustomNavigationDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.menu_rounded),
+                leading: const Icon(Icons.menu_rounded),
                 title: const Text('Rides'),
                 onTap: () {
                   Navigator.pop(context);
 
-                  Get.to(() => RidesPage());
+                  Get.to(() => const RidesPage());
                 },
               ),
               ListTile(
-                  leading: Icon(Icons.menu_rounded),
+                  leading: const Icon(Icons.menu_rounded),
                   title: const Text('Deliveries'),
                 onTap: () {
                   Navigator.pop(context);
 
-                  Get.to(() => DeliveriesPage());
+                  Get.to(() => const DeliveriesPage());
                 },
               ),
             ],
           ),
           ListTile(
-              leading: Icon(Icons.currency_rupee),
+              leading: const Icon(Icons.currency_rupee),
               title: const Text('AFAR Money'),
               onTap: () => Navigator.pop(context)),
           ListTile(
-              leading: Icon(Icons.payment_outlined),
+              leading: const Icon(Icons.payment_outlined),
               title: const Text('Payments'),
               onTap: () => Navigator.pop(context)),
           ListTile(
-            leading: Icon(Icons.person_add_alt_1),
+            leading: const Icon(Icons.person_add_alt_1),
             title: const Text('Refer a Friend'),
             onTap: () {
               Navigator.pop(context);
@@ -148,16 +106,16 @@ class CustomNavigationDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
+            leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () {
               Navigator.pop(context);
 
-              Get.to(() => SettingsPage());
+              Get.to(() => const SettingsPage());
             },
           ),
           ListTile(
-            leading: Icon(Icons.person),
+            leading: const Icon(Icons.person),
             title: const Text('About Us'),
             onTap: () async {
               Uri url = Uri.parse(
@@ -168,7 +126,7 @@ class CustomNavigationDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.logout),
+            leading: const Icon(Icons.logout),
             title: const Text('Sign Out'),
             onTap: () {
               Blurry.warning(
@@ -189,7 +147,7 @@ class CustomNavigationDrawer extends StatelessWidget {
           ),
           GetBuilder<AppVersionController>(
             builder: (controller) => ListTile(
-              leading: Icon(Icons.verified_sharp),
+              leading: const Icon(Icons.verified_sharp),
               title: const Text('App Version'),
               onTap: () {
                 Navigator.pop(context);
@@ -201,8 +159,47 @@ class CustomNavigationDrawer extends StatelessWidget {
               },
             ),
           ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
+  }
+
+  void onItemPressed(BuildContext context, {required int index}){
+    Navigator.pop(context);
+
+    switch(index){
+      case 0:
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => const People()));
+        break;
+    }
+  }
+
+  Widget headerWidget() {
+    const url = 'https://media.istockphoto.com/photos/learn-to-love-yourself-first-picture-id1291208214?b=1&k=20&m=1291208214&s=170667a&w=0&h=sAq9SonSuefj3d4WKy4KzJvUiLERXge9VgZO-oqKUOo=';
+    return Row(
+      children: [
+        const CircleAvatar(
+          radius: 35,
+          backgroundColor: Colors.white,
+          backgroundImage: AssetImage("assets/images/default.png"),
+        ),
+        const SizedBox(width: 20,),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(userProfileController.userName.value.isNotEmpty
+                            ? userProfileController.userName.value
+                            : "AFAR User", style: const TextStyle(fontSize: 14, color: Colors.black)),
+            const SizedBox(height: 10,),
+            Text(userProfileController.mobileNum.value.isNotEmpty
+                            ? "+91 ${userProfileController.mobileNum.value}"
+                            : "", style: const TextStyle(fontSize: 14, color: Colors.black))
+          ],
+        )
+      ],
+    );
+
   }
 }
