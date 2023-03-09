@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>300964292041-v8apgachml5qetljdejr33apshg6012r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.300964292041-v8apgachml5qetljdejr33apshg6012r</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>300964292041-1cp4t2tvnrmduuosjv427itv29q27n6o.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBY3mThNbEarpymQ2BRWPJSoL4sjw_lnkg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>300964292041</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.wings.miles.user.afarcabsuser</string>
+	<key>PROJECT_ID</key>
+	<string>farcabs</string>
+	<key>STORAGE_BUCKET</key>
+	<string>farcabs.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:300964292041:ios:9e5b9055b95d2d9200f418</string>
+</dict>
+</plist>

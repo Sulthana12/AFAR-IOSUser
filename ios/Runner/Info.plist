@@ -45,5 +45,13 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>NSLocationUsageDescription</key>
+	<string>Afar Cabs requires user's location for better user experience.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Afar Cabs requires user's location for better user experience.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Afar Cabs requires user's location for better user experience.</string>
 </dict>
 </plist>

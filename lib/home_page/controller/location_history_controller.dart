@@ -4,13 +4,9 @@ import 'package:afar_cabs_user/home_page/controller/user_controller.dart';
 import 'package:afar_cabs_user/search_screen/controller/places_search_controller.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
 
 import '../../api_constants/api_constants_manager.dart';
-import '../../api_constants/api_services.dart';
 import '../model/location_history.dart';
 
 class LocationHistoryController extends GetxController {
@@ -24,23 +20,20 @@ class LocationHistoryController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    print("User INTITSAIAD: " + userProfileController.userInitialized.value.toString());
+    print("User INTITSAIAD: ${userProfileController.userInitialized.value}");
     await getAllSavedLocationData();
   }
 
   Future<List<GetAllSaveLocation?>?> getAllSavedLocation() async {
     try {
       await userProfileController.updateHomeProfile();
-      print("In get all saved loc: " + userProfileController.userID.value);
+      print("In get all saved loc: ${userProfileController.userID.value}");
 
-      var url = Uri.parse(ApiConstants.baseUrl +
-          ApiConstants.getSavedLocation +
-          userProfileController.userID.value +
-          "&Location_type=0");
+      var url = Uri.parse("${ApiConstants.baseUrl}${ApiConstants.getSavedLocation}${userProfileController.userID.value}&Location_type=0");
       var response = await http.get(url);
       print(response.body);
       if (response.statusCode == 200) {
-        print("In GetALLSAVEDLOCATIONS" + response.body);
+        print("In GetALLSAVEDLOCATIONS${response.body}");
         List<GetAllSaveLocation?>? model = getAllSaveLocationFromJson(response.body);
         return model;
       } else {
@@ -59,9 +52,9 @@ class LocationHistoryController extends GetxController {
     isLocLoading.value = true;
 
     var res = "error";
-
-    if (await getAllSavedLocation() != null) {
-      saveLocationModel?.value = (await getAllSavedLocation())!.cast<GetAllSaveLocation>();
+    var result = await getAllSavedLocation();
+    if (result != null) {
+      saveLocationModel?.value = result.cast<GetAllSaveLocation>();
 
       res = "success";
       // Get.snackbar("Logged in successfully.", "Welcome to afar cabs!");
@@ -72,6 +65,7 @@ class LocationHistoryController extends GetxController {
       update();
 
       isLocLoading.value = false;
+      saveLocationModel?.refresh();
       return res;
     } else {
       saveLocationModel?.value = [];

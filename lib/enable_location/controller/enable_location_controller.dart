@@ -82,6 +82,16 @@ class EnableLocationController extends GetxController {
     update();
   }
 
+  Future<void> getCurrentPositionHome(Position position) async {
+    currentPosition = position;
+
+    currentLatitude.value = currentPosition!.latitude;
+    currentLongitude.value = currentPosition!.longitude;
+
+    await getAddressFromLatLng(currentPosition);
+    update();
+  }
+
   Future<void> getAddressFromLatLng(Position? position) async {
     await placemarkFromCoordinates(
         currentPosition!.latitude, currentPosition!.longitude)
@@ -90,7 +100,7 @@ class EnableLocationController extends GetxController {
       print(place.name!+place.locality!);
         currentAddress.value =
         '${place.name!}, ${place.locality!}, ${place.street}, ${place.postalCode}';
-        print("Current add: " + currentAddress.value);
+        print("Current add: ${currentAddress.value}");
     }).catchError((e) {
       debugPrint(e);
     });

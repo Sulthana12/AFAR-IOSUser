@@ -1,31 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'package:afar_cabs_user/api_constants/api_services.dart';
-import 'package:afar_cabs_user/components/cancel_ride_model_bsheet.dart';
 import 'package:afar_cabs_user/constants/colors/colors.dart';
 import 'package:afar_cabs_user/enable_location/controller/enable_location_controller.dart';
 import 'package:afar_cabs_user/home_page/controller/home_chip_controller.dart';
 import 'package:afar_cabs_user/search_screen/controller/places_search_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../add_favourites_page/controller/save_location_controller.dart';
 import '../../components/map_utils.dart';
 
 class GoogleMapHomeController extends GetxController {
-  final locController = Get.put(EnableLocationController());
+  final locController = Get.find<EnableLocationController>();
   final searchScreenController = Get.put(PlacesSearchController());
   final homeChipController = Get.put(HomeChipController());
 
-  late CameraPosition initialPosition;
+  late CameraPosition? initialPosition;
   late LatLng initialCameraPosition;
 
   CameraPosition? dragCameraPosition;
@@ -54,23 +48,21 @@ class GoogleMapHomeController extends GetxController {
   RxList<Marker> markers = <Marker>[].obs;
 
   @override
-  void onInit() async {
+  Future<void> onInit() async {
     super.onInit();
-
     isLoading.value = true;
-
-    // await apiService.getVehiclesData();
+    Position? position;
     if (locController.currentAddress.value.isEmpty) {
-      await locController.getCurrentPosition();
+      position = await getUserCurrentLocation();
+      locController.getCurrentPositionHome(position);
     }
-
     if (locController.currentLatitude.value != 0.0) {
       searchScreenController.startSearchFieldController.text =
           locController.currentAddress.value;
     }
 
-    print("Latitude" + locController.currentLatitude.value.toString());
-    print("Longitude" + locController.currentLongitude.value.toString());
+    print("Latitude${locController.currentLatitude.value}");
+    print("Longitude${locController.currentLongitude.value}");
     initialCameraPosition =
         searchScreenController.startPositionLat.value != 0.0 &&
                 searchScreenController.startPositionLong.value != 0.0
@@ -85,11 +77,6 @@ class GoogleMapHomeController extends GetxController {
     );
 
     isLoading.value = false;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   void onMapCreated(GoogleMapController controller) async {
@@ -108,7 +95,7 @@ class GoogleMapHomeController extends GetxController {
 
     startEndMarkers = {
       Marker(
-        markerId: MarkerId('start'),
+        markerId: const MarkerId('start'),
         position: LatLng(
           searchScreenController.startPositionLat.value != 0.0
               ? searchScreenController.startPositionLat.value
@@ -122,7 +109,7 @@ class GoogleMapHomeController extends GetxController {
         ),
       ),
       Marker(
-        markerId: MarkerId('end'),
+        markerId: const MarkerId('end'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         position: LatLng(
           searchScreenController.endPositionLat.value,
@@ -138,7 +125,7 @@ class GoogleMapHomeController extends GetxController {
             locController.currentLatitude.value != 0.0) &&
         searchScreenController.endPositionLat.value != 0.0) {
       print(startEndMarkers);
-      Future.delayed(Duration(milliseconds: 2000), () {
+      Future.delayed(const Duration(milliseconds: 2000), () {
         controller.animateCamera(CameraUpdate.newLatLngBounds(
             MapUtils.boundsFromLatLngList(
                 startEndMarkers.map((loc) => loc.position).toList()),
@@ -154,7 +141,7 @@ class GoogleMapHomeController extends GetxController {
         .then((value) {})
         .onError((error, stackTrace) async {
       await Geolocator.requestPermission();
-      print("ERROR" + error.toString());
+      print("ERROR$error");
     });
     return await Geolocator.getCurrentPosition();
   }
@@ -242,16 +229,16 @@ class GoogleMapHomeController extends GetxController {
     jsonApiResponse = await rideDistanceText() ?? {};
 
     distanceTimeForApi.value =
-    jsonApiResponse['rows'][0]['elements'][0]['duration']['text'];
+        jsonApiResponse['rows'][0]['elements'][0]['duration']['text'];
 
     distanceKmForApi.value =
-    jsonApiResponse['rows'][0]['elements'][0]['distance']['text'];
+        jsonApiResponse['rows'][0]['elements'][0]['distance']['text'];
 
-    print("Km : " + distanceKmForApi.value);
+    print("Km : ${distanceKmForApi.value}");
   }
 
   addPolyLine() {
-    PolylineId id = PolylineId("poly");
+    PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
         polylineId: id,
         color: primaryColor,
@@ -279,9 +266,9 @@ class GoogleMapHomeController extends GetxController {
         ),
         travelMode: TravelMode.driving);
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+      for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+      }
     }
 
     // /// polylineCoordinates is the List of longitute and latidtude.
@@ -309,19 +296,19 @@ class GoogleMapHomeController extends GetxController {
     jsonResponse = await rideDistanceText() ?? {};
 
     distanceTime.value =
-    jsonResponse['rows'][0]['elements'][0]['duration']['text'];
+        jsonResponse['rows'][0]['elements'][0]['duration']['text'];
 
     distanceKm.value =
-    jsonResponse['rows'][0]['elements'][0]['distance']['text'];
+        jsonResponse['rows'][0]['elements'][0]['distance']['text'];
 
-    print("Km : " + distanceKm.value);
+    print("Km : ${distanceKm.value}");
   }
 
   Future<Map<String, dynamic>?> rideDistanceText() async {
-    print("Starting place: " +
-        searchScreenController.controllerStartSearchField.value);
-    print("Destination: " +
-        searchScreenController.controllerEndSearchField.value);
+    print(
+        "Starting place: ${searchScreenController.controllerStartSearchField.value}");
+    print(
+        "Destination: ${searchScreenController.controllerEndSearchField.value}");
 
     double originLat = searchScreenController.startPositionLat.value != 0.0
         ? searchScreenController.startPositionLat.value
@@ -348,38 +335,35 @@ class GoogleMapHomeController extends GetxController {
     return null;
   }
 
-
   Future<void> onCameraDrag() async {
     if (dragCameraPosition != null) {
       if (homeChipController.rideConfirmed.value == false) {
-        List<Placemark> placemarks =
-        await placemarkFromCoordinates(
+        List<Placemark> placemarks = await placemarkFromCoordinates(
             dragCameraPosition!.target.latitude,
-            dragCameraPosition!.target
-                .longitude);
+            dragCameraPosition!.target.longitude);
 
         Placemark place = placemarks[0];
         //get place name from lat and lang
         // if (searchScreenController.endPositionLat.value == 0.0) {
         dragLocation.value =
-        '${place.name!}, ${place.locality!}, ${place.subLocality}, ${place.administrativeArea}, ${place.subAdministrativeArea}, ${place.street}, ${place.postalCode},';
-        locController.currentAddress.value =
-            dragLocation.value;
+            '${place.name!}, ${place.locality!}, ${place.subLocality}, ${place.administrativeArea}, ${place.subAdministrativeArea}, ${place.street}, ${place.postalCode},';
+        locController.currentAddress.value = dragLocation.value;
 
         /// Setting the starting location
-        searchScreenController.startPositionLat.value = dragCameraPosition!.target.latitude;
-        searchScreenController.startPositionLong.value = dragCameraPosition!.target.longitude;
+        searchScreenController.startPositionLat.value =
+            dragCameraPosition!.target.latitude;
+        searchScreenController.startPositionLong.value =
+            dragCameraPosition!.target.longitude;
 
-        searchScreenController.startSearchFieldController.text = locController.currentAddress.value;
+        searchScreenController.startSearchFieldController.text =
+            locController.currentAddress.value;
         // }
 
         update();
 
         print(locController.currentAddress.value);
-
       }
     }
-
   }
 
   void clearOldRoutes() {

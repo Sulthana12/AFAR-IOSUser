@@ -1,5 +1,4 @@
 import 'package:afar_cabs_user/api_constants/api_services.dart';
-import 'package:afar_cabs_user/components/cancel_ride_model_bsheet.dart';
 import 'package:afar_cabs_user/confirmation_page/view/confirmation_page.dart';
 import 'package:afar_cabs_user/constants/colors/colors.dart';
 import 'package:afar_cabs_user/express_delivery_page/view/express_delivery_page.dart';
@@ -10,25 +9,16 @@ import 'package:afar_cabs_user/home_page/controller/user_controller.dart';
 import 'package:afar_cabs_user/home_page/controller/vehicles_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
-import '../../components/auth_methods.dart';
 import '../../components/custom_app_bar.dart';
 import '../../components/custom_navigation_drawer.dart';
-import '../../confirmation_page/controller/distance_sending_api_controller.dart';
 import '../../enable_location/controller/enable_location_controller.dart';
 import '../../search_screen/controller/places_search_controller.dart';
 import '../../search_screen/view/search_screen_view.dart';
-import '../../sign_in_up_page/view/sign_in_page.dart';
 import '../controller/google_map_controller.dart';
-import 'package:easy_search_bar/easy_search_bar.dart';
-
-import '../model/vehicles.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -45,13 +35,10 @@ class HomePage extends StatelessWidget {
 
   final List<String> _chipRideOrExLabel = ['Ride', 'Express'];
   final List<String> _chipNextLabel = ['Daily', 'Rental', 'Pre-book'];
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    final overlay = Overlay.of(context);
-    OverlayEntry entry;
 
     return SafeArea(
       child: Scaffold(
@@ -61,55 +48,56 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
-                return GetBuilder<GoogleMapHomeController>(
-                    builder: (controller) {
-                  return SizedBox(
+                return SizedBox(
                     height: constraints.maxHeight / 1.9,
-                    child: Obx(
-                      () => controller.isLoading.value
-                          ? Center(
+                    child: Obx(() {
+                      if (googleMapController.isLoading.value) {
+                        return SizedBox(
+                          height: height * 0.25,
+                          child: const Center(
                               child: CircularProgressIndicator(
-                                color: primaryColor,
-                              ),
-                            )
-                          : GoogleMap(
-                              onMapCreated: controller.onMapCreated,
-                              initialCameraPosition: controller.initialPosition,
-                              polylines:
-                                  Set<Polyline>.of(controller.polylines.values),
-                              // on below line setting user location enabled.
-                              myLocationEnabled: true,
-                              onCameraMove:
-                                  // searchScreenController.endPositionLat.value == 0
-                                  (CameraPosition cameraPosition) {
-                                controller.dragCameraPosition =
-                                    cameraPosition; //when map is dragging
-                              },
-                              // : (CameraPosition cameraPosition) {},
-                              onCameraIdle:
-                                  // searchScreenController.endPositionLat.value == 0
-                                  () async {
-                                //when map drag stops
-                                await controller.onCameraDrag();
-                              },
-                              // : () {},
+                            color: primaryColor,
+                          )),
+                        );
+                      }
 
-                              // on below line we are setting markers on the map
-                              markers: (searchScreenController
-                                                  .startPositionLat.value !=
-                                              0.0 ||
-                                          locController.currentLatitude.value !=
-                                              0.0) &&
-                                      searchScreenController
-                                              .endPositionLat.value !=
-                                          0.0 &&
-                                      homeChipController.rideConfirmed.value
-                                  ? Set.from(controller.startEndMarkers)
-                                  : {},
-                            ),
-                    ),
+                      return GoogleMap(
+                        onMapCreated: googleMapController.onMapCreated,
+                        initialCameraPosition:
+                            googleMapController.initialPosition!,
+                        polylines: Set<Polyline>.of(
+                            googleMapController.polylines.values),
+                        // on below line setting user location enabled.
+                        // myLocationEnabled: true,
+                        onCameraMove:
+                            // searchScreenController.endPositionLat.value == 0
+                            (CameraPosition cameraPosition) {
+                          googleMapController.dragCameraPosition =
+                              cameraPosition; //when map is dragging
+                        },
+                        // : (CameraPosition cameraPosition) {},
+                        onCameraIdle:
+                            // searchScreenController.endPositionLat.value == 0
+                            () async {
+                          //when map drag stops
+                          await googleMapController.onCameraDrag();
+                        },
+                        // : () {},
+
+                        // on below line we are setting markers on the map
+                        markers: (searchScreenController
+                                            .startPositionLat.value !=
+                                        0.0 ||
+                                    locController.currentLatitude.value !=
+                                        0.0) &&
+                                searchScreenController.endPositionLat.value !=
+                                    0.0 &&
+                                homeChipController.rideConfirmed.value
+                            ? Set.from(googleMapController.startEndMarkers)
+                            : {},
+                      );
+                    }),
                   );
-                });
               }),
               // searchScreenController.startPositionLat.value == 0 &&
               //         searchScreenController.endPositionLat.value == 0
@@ -120,7 +108,7 @@ class HomePage extends StatelessWidget {
                         bottom: height / 1.40,
                         right: (width - 30) / 2.05,
                         child: googleMapController.isLoading.value == false
-                            ? Icon(
+                            ? const Icon(
                                 Icons.person_pin_circle,
                                 size: 40,
                                 color: Colors.red,
@@ -131,7 +119,7 @@ class HomePage extends StatelessWidget {
               // : Container(),
               CustomAppBar(),
               Positioned(
-                top: height * 0.1,
+                top: AppBar().preferredSize.height + 15,
                 right: 15,
                 left: width * 0.7,
                 child: GetBuilder<VehiclesController>(builder: (controller) {
@@ -141,7 +129,7 @@ class HomePage extends StatelessWidget {
                           ? false
                           : true,
                       child: Container(
-                        height: height * 0.4,
+                        height: height * 0.38,
                         width: 100,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -149,7 +137,7 @@ class HomePage extends StatelessWidget {
                           // border: Border.all(color: primaryColor, width: 2.0),
                         ),
                         child: controller.vehiclesModel!.isEmpty
-                            ? Center(
+                            ? const Center(
                                 child: CircularProgressIndicator(
                                     color: primaryColor),
                               )
@@ -222,13 +210,13 @@ class HomePage extends StatelessWidget {
                                             Image.network(
                                               controller.vehiclesModel![index]
                                                   .fileLocation!,
-                                              height: height * 0.08,
-                                              width: width * 0.2,
+                                              height: height * 0.04,
+                                              width: width * 0.1,
                                             ),
                                             Text(
                                               controller.vehiclesModel![index]
                                                   .settingsValue!,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: primaryColor,
                                               ),
                                             ),
@@ -248,20 +236,20 @@ class HomePage extends StatelessWidget {
                   initialChildSize: 0.47,
                   minChildSize: 0.47,
                   maxChildSize: 1,
-                  snapSizes: [0.47, 1],
+                  snapSizes: const [0.47, 1],
                   snap: true,
                   builder: (BuildContext context, scrollSheetController) {
                     return Container(
                       color: Colors.white,
                       child: ListView(
                         padding: EdgeInsets.zero,
-                        physics: ClampingScrollPhysics(),
+                        physics: const ClampingScrollPhysics(),
                         controller: scrollSheetController,
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Column(
-                              children: [
+                              children: const [
                                 SizedBox(
                                   width: 50,
                                   child: Divider(
@@ -283,7 +271,7 @@ class HomePage extends StatelessWidget {
                                       side:
                                           homeChipController.rideSelected.value
                                               ? BorderSide.none
-                                              : BorderSide(width: 2.0),
+                                              : const BorderSide(width: 2.0),
                                     ),
                                     selected:
                                         homeChipController.rideSelected.value,
@@ -324,7 +312,7 @@ class HomePage extends StatelessWidget {
                                       side: homeChipController
                                               .expressSelected.value
                                           ? BorderSide.none
-                                          : BorderSide(width: 2.0),
+                                          : const BorderSide(width: 2.0),
                                     ),
                                     selected: homeChipController
                                         .expressSelected.value,
@@ -362,6 +350,7 @@ class HomePage extends StatelessWidget {
                           ),
                           Obx(
                             () => Visibility(
+                              visible: homeChipController.rideSelected.value,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -373,7 +362,7 @@ class HomePage extends StatelessWidget {
                                         side: homeChipController
                                                 .dailySelected.value
                                             ? BorderSide.none
-                                            : BorderSide(width: 2.0),
+                                            : const BorderSide(width: 2.0),
                                       ),
                                       selected: homeChipController
                                           .dailySelected.value,
@@ -415,7 +404,7 @@ class HomePage extends StatelessWidget {
                                         side: homeChipController
                                                 .rentalSelected.value
                                             ? BorderSide.none
-                                            : BorderSide(width: 2.0),
+                                            : const BorderSide(width: 2.0),
                                       ),
                                       selected: homeChipController
                                           .rentalSelected.value,
@@ -458,7 +447,7 @@ class HomePage extends StatelessWidget {
                                         side: homeChipController
                                                 .preBookSelected.value
                                             ? BorderSide.none
-                                            : BorderSide(width: 2.0),
+                                            : const BorderSide(width: 2.0),
                                       ),
                                       selected: homeChipController
                                           .preBookSelected.value,
@@ -492,7 +481,6 @@ class HomePage extends StatelessWidget {
                                       }),
                                 ],
                               ),
-                              visible: homeChipController.rideSelected.value,
                             ),
                           ),
                           SizedBox(
@@ -532,14 +520,14 @@ class HomePage extends StatelessWidget {
                                 ),
                                 child: Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.search,
                                       color: primaryColor,
                                     ),
                                     SizedBox(
                                       width: width * 0.03,
                                     ),
-                                    Text(
+                                    const Text(
                                       "Search Destination",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -564,14 +552,14 @@ class HomePage extends StatelessWidget {
                                                         MainAxisAlignment
                                                             .spaceEvenly,
                                                     children: [
-                                                      Text(
+                                                      const Text(
                                                         'Schedule a trip',
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             fontSize: 25),
                                                       ),
-                                                      Divider(
+                                                      const Divider(
                                                         thickness: 2.0,
                                                       ),
                                                       Obx(
@@ -602,15 +590,16 @@ class HomePage extends StatelessWidget {
                                                                   .format(
                                                                       picked);
 
-                                                              homeChipController.datePickedForApi.value = DateFormat(
-                                                                  "dd/MM/yyyy")
+                                                              homeChipController
+                                                                  .datePickedForApi
+                                                                  .value = DateFormat(
+                                                                      "dd/MM/yyyy")
                                                                   .format(
-                                                                  picked);
+                                                                      picked);
 
-                                                              print(
-                                                                  homeChipController
-                                                                      .datePickedForApi
-                                                                      .value);
+                                                              print(homeChipController
+                                                                  .datePickedForApi
+                                                                  .value);
                                                               print(
                                                                   homeChipController
                                                                       .datePicked
@@ -629,12 +618,14 @@ class HomePage extends StatelessWidget {
                                                                         "E, d MMM")
                                                                     .format(DateTime
                                                                         .now()),
-                                                            style: TextStyle(
-                                                                fontSize: 20),
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        20),
                                                           ),
                                                         ),
                                                       ),
-                                                      Divider(
+                                                      const Divider(
                                                         thickness: 2.0,
                                                       ),
                                                       Obx(
@@ -652,15 +643,19 @@ class HomePage extends StatelessWidget {
                                                                             TimeOfDay.now().minute));
                                                             if (timePicked !=
                                                                 null) {
-                                                              print("${timePicked.hour}:${timePicked.minute}:00");
+                                                              print(
+                                                                  "${timePicked.hour}:${timePicked.minute}:00");
                                                               homeChipController
                                                                       .timePicked
                                                                       .value =
                                                                   timePicked
                                                                       .format(
                                                                           context);
-                                                              
-                                                              homeChipController.timePickedForApi.value = "${timePicked.hour}:${timePicked.minute}:00";
+
+                                                              homeChipController
+                                                                      .timePickedForApi
+                                                                      .value =
+                                                                  "${timePicked.hour}:${timePicked.minute}:00";
 
                                                               print(
                                                                   homeChipController
@@ -680,12 +675,14 @@ class HomePage extends StatelessWidget {
                                                                         'hh:mm a')
                                                                     .format(DateTime
                                                                         .now()),
-                                                            style: TextStyle(
-                                                                fontSize: 20),
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        20),
                                                           ),
                                                         ),
                                                       ),
-                                                      Divider(
+                                                      const Divider(
                                                         thickness: 2.0,
                                                       ),
                                                       Material(
@@ -700,10 +697,14 @@ class HomePage extends StatelessWidget {
                                                                     .value =
                                                                 "${homeChipController.timePicked.value}, ${homeChipController.datePicked.value}";
 
-                                                            homeChipController.dateTimePickedForApi.value =
-                                                            "${homeChipController.datePickedForApi.value} ${homeChipController.timePickedForApi.value}";
+                                                            homeChipController
+                                                                    .dateTimePickedForApi
+                                                                    .value =
+                                                                "${homeChipController.datePickedForApi.value} ${homeChipController.timePickedForApi.value}";
 
-                                                            print(homeChipController.dateTimePickedForApi.value);
+                                                            print(homeChipController
+                                                                .dateTimePickedForApi
+                                                                .value);
 
                                                             Navigator.pop(
                                                                 context);
@@ -757,9 +758,9 @@ class HomePage extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
-                                          primary: Colors.white,
+                                          backgroundColor: Colors.white,
                                         ),
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.access_time_filled_outlined,
                                           color: Colors.black,
                                         ),
@@ -777,8 +778,8 @@ class HomePage extends StatelessWidget {
                                                 ? "Now"
                                                 : homeChipController
                                                     .datePicked.value,
-                                            style:
-                                                TextStyle(color: Colors.black),
+                                            style: const TextStyle(
+                                                color: Colors.black),
                                             maxLines: 1,
                                           ),
                                         ),
@@ -792,115 +793,118 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          GetBuilder<LocationHistoryController>(
-                            builder: (controller) {
-                              return controller.isLocLoading.value
-                                  ? Container(
+                          Obx(
+                            () {
+                              if (locationHistoryController
+                                  .isLocLoading.value) {
+                                return SizedBox(
+                                  height: height * 0.25,
+                                  child: const Center(
+                                      child: CircularProgressIndicator(
+                                    color: primaryColor,
+                                  )),
+                                );
+                              }
+                              return locationHistoryController
+                                              .saveLocationModel ==
+                                          null ||
+                                      locationHistoryController
+                                          .saveLocationModel!.isEmpty
+                                  ? SizedBox(
                                       height: height * 0.25,
-                                      child: Center(
-                                          child: CircularProgressIndicator(
-                                        color: primaryColor,
-                                      )),
+                                      child: const Center(
+                                        child: Text(
+                                          "Set your favourite location and check here",
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
                                     )
-                                  : controller.saveLocationModel == null ||
-                                          controller.saveLocationModel!.isEmpty
-                                      ? Container(
-                                          height: height * 0.25,
-                                          child: Center(
-                                            child: Text(
-                                              "Set your favourite location and check here",
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold,
+                                  : SizedBox(
+                                      height: height * 0.25,
+                                      child: ListView.builder(
+                                        itemCount: locationHistoryController
+                                            .saveLocationModel!.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return ListTile(
+                                            title: AutoSizeText(
+                                              locationHistoryController
+                                                  .saveLocationModel![index]
+                                                  .locationAddress!,
+                                              maxLines: 1,
+                                              minFontSize: 12,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
                                               ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                          ),
-                                        )
-                                      : SizedBox(
-                                          height: height * 0.25,
-                                          child: ListView.builder(
-                                            itemCount: controller
-                                                .saveLocationModel!.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return ListTile(
-                                                title: AutoSizeText(
-                                                  controller
-                                                      .saveLocationModel![index]
-                                                      .locationAddress!,
-                                                  maxLines: 1,
-                                                  minFontSize: 12,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                leading: Icon(Icons.history),
-                                                onTap: () async {
-                                                  if (((homeChipController
-                                                          .rideSelected
-                                                          .value) &&
-                                                      (homeChipController
-                                                              .dailySelected
-                                                              .value ||
-                                                          homeChipController
-                                                              .rentalSelected
-                                                              .value ||
-                                                          homeChipController
-                                                              .preBookSelected
-                                                              .value))) {
-                                                    homeChipController
-                                                        .vehicleSelected
-                                                        .value = true;
+                                            leading: const Icon(Icons.history),
+                                            onTap: () async {
+                                              if (((homeChipController
+                                                      .rideSelected.value) &&
+                                                  (homeChipController
+                                                          .dailySelected.value ||
+                                                      homeChipController
+                                                          .rentalSelected
+                                                          .value ||
+                                                      homeChipController
+                                                          .preBookSelected
+                                                          .value))) {
+                                                homeChipController
+                                                    .vehicleSelected
+                                                    .value = true;
 
-                                                    /// setting the location address
-                                                    controller.selectedAddress
-                                                            .value =
-                                                        controller
-                                                            .saveLocationModel![
-                                                                index]
-                                                            .locationAddress!;
+                                                /// setting the location address
+                                                locationHistoryController
+                                                        .selectedAddress.value =
+                                                    locationHistoryController
+                                                        .saveLocationModel![
+                                                            index]
+                                                        .locationAddress!;
 
-                                                    await controller
-                                                        .findLocLatLongAndSet();
+                                                await locationHistoryController
+                                                    .findLocLatLongAndSet();
 
-                                                    await googleMapController.getDistanceDetailsForApi();
+                                                await googleMapController
+                                                    .getDistanceDetailsForApi();
 
-                                                    Get.to(() =>
-                                                        ConfirmationPage());
-                                                  } else if (homeChipController
-                                                      .expressSelected.value) {
-                                                    homeChipController
-                                                        .vehicleSelected
-                                                        .value = true;
+                                                Get.to(
+                                                    () => ConfirmationPage());
+                                              } else if (homeChipController
+                                                  .expressSelected.value) {
+                                                homeChipController
+                                                    .vehicleSelected
+                                                    .value = true;
 
-                                                    /// setting the location address
-                                                    controller.selectedAddress
-                                                            .value =
-                                                        controller
-                                                            .saveLocationModel![
-                                                                index]
-                                                            .locationAddress!;
+                                                /// setting the location address
+                                                locationHistoryController
+                                                        .selectedAddress.value =
+                                                    locationHistoryController
+                                                        .saveLocationModel![
+                                                            index]
+                                                        .locationAddress!;
 
-                                                    controller
-                                                        .findLocLatLongAndSet();
+                                                locationHistoryController
+                                                    .findLocLatLongAndSet();
 
-                                                    Get.to(() =>
-                                                        ExpressDeliveryConform());
-                                                  } else {
-                                                    Get.snackbar(
-                                                        "Select ride and its category",
-                                                        "Select ride, category and then choose vehicle");
-                                                    homeChipController
-                                                        .vehicleSelected
-                                                        .value = false;
-                                                  }
-                                                },
-                                              );
+                                                Get.to(() =>
+                                                    ExpressDeliveryConform());
+                                              } else {
+                                                Get.snackbar(
+                                                    "Select ride and its category",
+                                                    "Select ride, category and then choose vehicle");
+                                                homeChipController
+                                                    .vehicleSelected
+                                                    .value = false;
+                                              }
                                             },
-                                          ),
-                                        );
+                                          );
+                                        },
+                                      ),
+                                    );
                             },
                           ),
                         ],
@@ -918,13 +922,10 @@ class HomePage extends StatelessWidget {
                           child: Container(
                             child: Card(
                               child: Container(
-                                padding: EdgeInsets.all(20),
+                                padding: const EdgeInsets.all(20),
                                 child: Text(
-                                  "Total Distance: " +
-                                      controller.distanceKm.value +
-                                      "\nTotal Time: " +
-                                      controller.distanceTime.value,
-                                  style: TextStyle(
+                                  "Total Distance: ${controller.distanceKm.value}\nTotal Time: ${controller.distanceTime.value}",
+                                  style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),

@@ -37,6 +37,13 @@
             {
               "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "300964292041-v8apgachml5qetljdejr33apshg6012r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wings.miles.user.afarcabsuser"
+              }
             }
           ]
         }
@@ -51,7 +58,31 @@
       },
       "oauth_client": [
         {
-          "client_id": "300964292041-f7p4vkhm4434srp05tcfdotdujimi785.apps.googleusercontent.com",
+          "client_id": "300964292041-1lsanmsbbo9l5orvnidaloctq44naabt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wings.mile.driver",
+            "certificate_hash": "5ebfac948566b23c8793ea0029752e6cce9f51fe"
+          }
+        },
+        {
+          "client_id": "300964292041-8jt8p7p5e8jrvrqql9netce2itdqkf6s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wings.mile.driver",
+            "certificate_hash": "34cc2fd889c3b23cf299b63bb53abab48dcda020"
+          }
+        },
+        {
+          "client_id": "300964292041-u7bael1dhrn1j7b4m1dk4hdhk2eis6r7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wings.mile.driver",
+            "certificate_hash": "a4e7c605b44f244b8c49e558632bf751d2043a04"
+          }
+        },
+        {
+          "client_id": "300964292041-vkg6n6qq5iddoee5g36ln49laikspqoq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.wings.mile.driver",
@@ -74,6 +105,13 @@
             {
               "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "300964292041-v8apgachml5qetljdejr33apshg6012r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wings.miles.user.afarcabsuser"
+              }
             }
           ]
         }
@@ -111,6 +149,13 @@
             {
               "client_id": "300964292041-q0upq3qps6c4oij3eimk22ai9utv9bfo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "300964292041-v8apgachml5qetljdejr33apshg6012r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wings.miles.user.afarcabsuser"
+              }
             }
           ]
         }
