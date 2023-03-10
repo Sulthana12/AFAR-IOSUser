@@ -1,20 +1,13 @@
 import 'package:afar_cabs_user/add_favourites_page/controller/save_location_controller.dart';
 import 'package:afar_cabs_user/constants/colors/colors.dart';
-import 'package:afar_cabs_user/home_page/view/home_page_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 
 import '../../components/custom_address_show_dialog.dart';
 import '../../enable_location/controller/enable_location_controller.dart';
 import '../../home_page/controller/google_map_controller.dart';
 import '../../search_screen/controller/places_search_controller.dart';
-import 'add_favourites_page_view.dart';
 
 class MyLocationsPage extends StatelessWidget {
   MyLocationsPage({Key? key}) : super(key: key);
@@ -31,7 +24,7 @@ class MyLocationsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("My Locations"),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: Colors.white,
           onPressed: () {
             // Get.off(HomePage());
@@ -55,7 +48,7 @@ class MyLocationsPage extends StatelessWidget {
                 child:
                     GetBuilder<SaveLocationController>(builder: (controller) {
                   return controller.isMyLocationsLoading.value
-                      ? Center(
+                      ? const Center(
                           child: CircularProgressIndicator(color: primaryColor),
                         )
                       : Column(
@@ -67,24 +60,24 @@ class MyLocationsPage extends StatelessWidget {
                             ),
                             Obx(
                               () => ListTile(
-                                title: Text(
+                                title: const Text(
                                   "Home",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 18.0,
                                   ),
                                 ),
-                                subtitle: Text(
+                                subtitle: controller.homeAddress.value.isNotEmpty?Text(
                                   controller.homeAddress.value,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 15.0,
                                   ),
-                                ),
+                                ):null,
                                 trailing: IconButton(
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.edit,
                                   ),
                                   color: Colors.black,
@@ -101,7 +94,7 @@ class MyLocationsPage extends StatelessWidget {
                                         builder: (context) => Obx(
                                           () => controller
                                                   .isMapLocationLoading.value
-                                              ? Center(
+                                              ? const Center(
                                                   child:
                                                       CircularProgressIndicator(
                                                     color: primaryColor,
@@ -149,8 +142,8 @@ class MyLocationsPage extends StatelessWidget {
                                   },
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(20),
+                                  side: const BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 onTap: () async {
                                   if (saveLocationController
@@ -174,24 +167,24 @@ class MyLocationsPage extends StatelessWidget {
                             ),
                             Obx(
                               () => ListTile(
-                                title: Text(
+                                title: const Text(
                                   "Work",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 20.0,
                                   ),
                                 ),
-                                subtitle: Text(
+                                subtitle: controller.workAddress.value.isNotEmpty?Text(
                                   controller.workAddress.value,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 15.0,
                                   ),
-                                ),
+                                ):null,
                                 trailing: IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.edit,
                                     ),
                                     color: Colors.black,
@@ -208,7 +201,7 @@ class MyLocationsPage extends StatelessWidget {
                                           builder: (context) => Obx(
                                             () => controller
                                                     .isMapLocationLoading.value
-                                                ? Center(
+                                                ? const Center(
                                                     child:
                                                         CircularProgressIndicator(
                                                       color: primaryColor,
@@ -245,8 +238,8 @@ class MyLocationsPage extends StatelessWidget {
                                       );
                                     }),
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(20),
+                                  side: const BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 onTap: () {
                                   if (saveLocationController
@@ -270,24 +263,24 @@ class MyLocationsPage extends StatelessWidget {
                             ),
                             Obx(
                               () => ListTile(
-                                title: Text(
+                                title: const Text(
                                   "Others",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 20.0,
                                   ),
                                 ),
-                                subtitle: Text(
+                                subtitle: controller.othersAddress.value.isNotEmpty?Text(
                                   controller.othersAddress.value,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 15.0,
                                   ),
-                                ),
+                                ):null,
                                 trailing: IconButton(
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.edit,
                                   ),
                                   color: Colors.black,
@@ -304,7 +297,7 @@ class MyLocationsPage extends StatelessWidget {
                                         builder: (context) => Obx(
                                           () => controller
                                                   .isMapLocationLoading.value
-                                              ? Center(
+                                              ? const Center(
                                                   child:
                                                       CircularProgressIndicator(
                                                     color: primaryColor,
@@ -340,8 +333,8 @@ class MyLocationsPage extends StatelessWidget {
                                   },
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(20),
+                                  side: const BorderSide(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 onTap: () {
                                   if (saveLocationController
