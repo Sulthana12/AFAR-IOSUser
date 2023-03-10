@@ -32,7 +32,6 @@ dependencies:
   form_field_validator: ^1.1.0
   auto_size_text: ^3.0.0
   # otp countdown timer package
-  circular_countdown_timer: ^0.2.3
   flutter_countdown_timer: ^4.1.0
   # app version and other details provider
   package_info_plus: ^3.0.3

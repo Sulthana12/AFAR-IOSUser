@@ -1,6 +1,7 @@
 import 'package:afar_cabs_user/api_constants/api_services.dart';
 import 'package:afar_cabs_user/confirmation_page/controller/distance_sending_api_controller.dart';
 import 'package:afar_cabs_user/confirmation_page/controller/payment_controller.dart';
+import 'package:afar_cabs_user/confirmation_page/view/ride_confirmation_page.dart';
 import 'package:afar_cabs_user/constants/colors/colors.dart';
 import 'package:afar_cabs_user/home_page/controller/user_controller.dart';
 import 'package:afar_cabs_user/home_page/controller/vehicles_controller.dart';
@@ -471,10 +472,16 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                             // await openCheckout();
                             homeChipController.rideConfirmed.value = true;
 
+                            /// Here you can change the new ride confirmation page
+                            // Get.to(() => RideConfirmationPage());
+
                             Get.offAll(()=>HomePage());
                             await cancelRideModalBottomSheet(context, "Cancel Ride");
                           } else {
                             homeChipController.rideConfirmed.value = true;
+
+                            /// Here you can change the new ride confirmation page
+                            // Get.to(() => RideConfirmationPage());
 
                             Get.offAll(() => HomePage());
                             await cancelRideModalBottomSheet(context, "Cancel Ride");
