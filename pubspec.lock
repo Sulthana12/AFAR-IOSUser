@@ -49,14 +49,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
-  circular_countdown_timer:
-    dependency: "direct main"
-    description:
-      name: circular_countdown_timer
-      sha256: "9ba5fbc076cedbcbf6190ed86762e679f43d7c67cdd903ea34df059dabdc08d4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.3"
   clock:
     dependency: transitive
     description:
@@ -1091,5 +1083,5 @@ packages:
     source: hosted
     version: "1.0.0"
 sdks:
-  dart: ">=2.18.2 <3.0.0"
+  dart: ">=2.18.0 <3.0.0"
   flutter: ">=3.7.0"

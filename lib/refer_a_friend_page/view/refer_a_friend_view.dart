@@ -18,20 +18,18 @@ class ReferFriendPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 7.0),
-          child: Image.asset("assets/icon/afar.png"),
+        title: const Text("Refer a Friend"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            // Get.off(HomePage());
+            Navigator.pop(context);
+          },
         ),
-        title: Center(child: Text("Refer a Friend")),
-        actions: [
-          TextButton(
-              onPressed: () {},
-              child: Icon(
-                Icons.notifications,
-                color: Colors.white,
-              )),
-        ],
+        elevation: 0.0,
         backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
       ),
       body: Stack(
         children: [

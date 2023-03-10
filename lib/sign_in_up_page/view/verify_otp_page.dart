@@ -6,7 +6,6 @@ import 'package:afar_cabs_user/home_page/view/home_page_view.dart';
 import 'package:afar_cabs_user/sign_in_up_page/controller/personal_details_controller.dart';
 import 'package:afar_cabs_user/sign_in_up_page/controller/sign_up_email_phone_controller.dart';
 import 'package:afar_cabs_user/sign_in_up_page/view/personal_details_page.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';

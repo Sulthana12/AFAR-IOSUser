@@ -149,13 +149,14 @@ class CustomNavigationDrawer extends StatelessWidget {
             builder: (controller) => ListTile(
               leading: const Icon(Icons.verified_sharp),
               title: const Text('App Version'),
+              trailing: Text(controller.appVersion.value),
               onTap: () {
-                Navigator.pop(context);
+                // Navigator.pop(context);
 
                 /// It'll return the current version of the app
-                controller.initPackageInfo();
+                // controller.initPackageInfo();
 
-                showCurrentVersion(context, controller);
+                // showCurrentVersion(context, controller);
               },
             ),
           ),

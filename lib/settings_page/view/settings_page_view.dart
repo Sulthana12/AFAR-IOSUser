@@ -14,32 +14,25 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 7.0),
-          child: Image.asset("assets/icon/afar.png"),
+        title: const Text("Settings page"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            // Get.off(HomePage());
+            Navigator.pop(context);
+          },
         ),
-        title: Center(child: Text("Settings")),
-        actions: [
-          TextButton(
-              onPressed: () {},
-              child: Icon(
-                Icons.notifications,
-                color: Colors.white,
-              )),
-        ],
+        elevation: 0.0,
         backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
         children: [
           ListTile(
               leading: Icon(Icons.document_scanner, color: Colors.black ,),
-              title: const Text('Documents Managements',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              title: const Text('Documents Managements'),
               onTap: () => Navigator.pop(context),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
@@ -52,10 +45,6 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.translate, color: Colors.black ,),
             title: const Text('Language Preference',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w700,
-              ),
             ),
             onTap: () => Navigator.pop(context),
             trailing: const Icon(
@@ -70,10 +59,6 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.privacy_tip_sharp, color: Colors.black ,),
             title: const Text('Privacy Policy',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w700,
-              ),
             ),
             onTap: () async {
               Uri url = Uri.parse("https://afarstorage.blob.core.windows.net/mobile-app/PrivacyPolicy.html");
@@ -93,10 +78,6 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.fact_check, color: Colors.black ,),
             title: const Text('Cancellation and Refund Policy',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w700,
-              ),
             ),
             onTap: () async {
               Uri url = Uri.parse("https://afarstorage.blob.core.windows.net/mobile-app/CancellationRefundPolicy.html");
@@ -116,10 +97,6 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.question_answer, color: Colors.black ,),
             title: const Text('Contact Us',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w700,
-              ),
             ),
             onTap: () {
               // Navigator.pop(context);

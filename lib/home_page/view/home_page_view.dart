@@ -48,55 +48,59 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
-                return SizedBox(
-                    height: constraints.maxHeight / 1.9,
-                    child: Obx(() {
-                      if (googleMapController.isLoading.value) {
-                        return SizedBox(
-                          height: height * 0.25,
-                          child: const Center(
-                              child: CircularProgressIndicator(
-                            color: primaryColor,
-                          )),
-                        );
-                      }
+                return GetBuilder<GoogleMapHomeController>(
+                  builder: (controller) {
+                    return SizedBox(
+                        height: constraints.maxHeight / 1.9,
+                        child: Obx(() {
+                          if (controller.isLoading.value) {
+                            return SizedBox(
+                              height: height * 0.25,
+                              child: const Center(
+                                  child: CircularProgressIndicator(
+                                color: primaryColor,
+                              )),
+                            );
+                          }
 
-                      return GoogleMap(
-                        onMapCreated: googleMapController.onMapCreated,
-                        initialCameraPosition:
-                            googleMapController.initialPosition!,
-                        polylines: Set<Polyline>.of(
-                            googleMapController.polylines.values),
-                        myLocationButtonEnabled: false,
-                        onCameraMove:
-                            // searchScreenController.endPositionLat.value == 0
-                            (CameraPosition cameraPosition) {
-                          googleMapController.dragCameraPosition =
-                              cameraPosition; //when map is dragging
-                        },
-                        // : (CameraPosition cameraPosition) {},
-                        onCameraIdle:
-                            // searchScreenController.endPositionLat.value == 0
-                            () async {
-                          //when map drag stops
-                          await googleMapController.onCameraDrag();
-                        },
-                        // : () {},
+                          return GoogleMap(
+                            onMapCreated: controller.onMapCreated,
+                            initialCameraPosition:
+                            controller.initialPosition!,
+                            polylines: Set<Polyline>.of(
+                                controller.polylines.values),
+                            myLocationButtonEnabled: false,
+                            onCameraMove:
+                                // searchScreenController.endPositionLat.value == 0
+                                (CameraPosition cameraPosition) {
+                                  controller.dragCameraPosition =
+                                  cameraPosition; //when map is dragging
+                            },
+                            // : (CameraPosition cameraPosition) {},
+                            onCameraIdle:
+                                // searchScreenController.endPositionLat.value == 0
+                                () async {
+                              //when map drag stops
+                              await controller.onCameraDrag();
+                            },
+                            // : () {},
 
-                        // on below line we are setting markers on the map
-                        markers: (searchScreenController
-                                            .startPositionLat.value !=
-                                        0.0 ||
-                                    locController.currentLatitude.value !=
-                                        0.0) &&
-                                searchScreenController.endPositionLat.value !=
-                                    0.0 &&
-                                homeChipController.rideConfirmed.value
-                            ? Set.from(googleMapController.startEndMarkers)
-                            : {},
+                            // on below line we are setting markers on the map
+                            markers: (searchScreenController
+                                                .startPositionLat.value !=
+                                            0.0 ||
+                                        locController.currentLatitude.value !=
+                                            0.0) &&
+                                    searchScreenController.endPositionLat.value !=
+                                        0.0 &&
+                                    homeChipController.rideConfirmed.value
+                                ? Set.from(controller.startEndMarkers)
+                                : {},
+                          );
+                        }),
                       );
-                    }),
-                  );
+                  }
+                );
               }),
               // searchScreenController.startPositionLat.value == 0 &&
               //         searchScreenController.endPositionLat.value == 0
