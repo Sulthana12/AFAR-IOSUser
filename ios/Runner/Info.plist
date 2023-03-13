@@ -53,5 +53,12 @@
 	<string>Afar Cabs requires user's location for better user experience.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Afar Cabs requires user's location for better user experience.</string>
+	<key>CFBundleLocalizations</key>
+		<array>
+			<string>en</string>
+			<string>en-US</string>
+			<string>ta-IN</string>
+			<string>ta</string>
+		</array>
 </dict>
 </plist>

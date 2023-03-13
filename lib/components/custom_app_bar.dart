@@ -129,6 +129,7 @@ class CustomAppBar extends StatelessWidget {
                               },
                               child: Obx(
                                 () => Container(
+                                  width: double.maxFinite,
                                   decoration:
                                       (homeChipController.rideSelected.value) &&
                                               (homeChipController

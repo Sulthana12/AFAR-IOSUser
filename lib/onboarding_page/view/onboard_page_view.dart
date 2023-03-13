@@ -2,11 +2,10 @@ import 'package:afar_cabs_user/onboarding_page/view/sign_in_up_intro.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-import '../../generated/l10n.dart';
 
 class OnboardingScreen extends StatelessWidget {
 
-  OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class OnboardingScreen extends StatelessWidget {
           image: Image.asset("assets/onboard/tut_1.png", height: 270.0, width: 320.0,),
           decoration: PageDecoration(
               imagePadding: EdgeInsets.only(top: size.height * 0.25),
-              titlePadding: EdgeInsets.only(bottom: 24.0),
+              titlePadding: const EdgeInsets.only(bottom: 24.0),
               bodyFlex: 0,
               imageFlex: 0,
               bodyAlignment: Alignment.bottomCenter,
@@ -35,7 +34,7 @@ class OnboardingScreen extends StatelessWidget {
           image: Image.asset("assets/onboard/tut_2.png", height: 270.0),
           decoration: PageDecoration(
               imagePadding: EdgeInsets.only(top: size.height * 0.25),
-              titlePadding: EdgeInsets.only(bottom: 24.0),
+              titlePadding: const EdgeInsets.only(bottom: 24.0),
               bodyFlex: 0,
               imageFlex: 0,
               bodyAlignment: Alignment.bottomCenter,
@@ -48,7 +47,7 @@ class OnboardingScreen extends StatelessWidget {
           image: Image.asset("assets/onboard/tut_3.png", height: 270.0),
           decoration: PageDecoration(
               imagePadding: EdgeInsets.only(top: size.height * 0.25),
-              titlePadding: EdgeInsets.only(bottom: 24.0),
+              titlePadding: const EdgeInsets.only(bottom: 24.0),
               bodyFlex: 0,
               imageFlex: 0,
               bodyAlignment: Alignment.bottomCenter,

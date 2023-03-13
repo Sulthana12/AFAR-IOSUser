@@ -1,15 +1,14 @@
 import 'package:afar_cabs_user/app_landing_page/view/app_landing_page.dart';
 import 'package:afar_cabs_user/language_change_provider.dart';
 import 'package:afar_cabs_user/sign_in_up_page/view/sign_in_page.dart';
+import 'package:afar_cabs_user/translation/translation_string.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'generated/l10n.dart';
 import 'home_page/view/home_page_view.dart';
 
 
@@ -45,20 +44,15 @@ class MyApp extends StatelessWidget {
     );
 
     return ChangeNotifierProvider<LanguageChangeProvider>(
-      create: (context) => LanguageChangeProvider(),
+      create: (context) => LanguageChangeProvider()..intialize(),
       child: Builder(
         builder: (context) => GetMaterialApp(
           debugShowCheckedModeBanner: false,
           // this code is used for multi language support
           locale: Provider.of<LanguageChangeProvider>(context, listen: true)
               .currentLocale,
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
+          translations: TransalationString(),
+          fallbackLocale: const Locale('en', 'US'), // specify the fallback locale in case an invalid locale is selected.
           // upto this. multi language support code
           title: 'Afar Cabs',
           initialRoute: initScreen == 0 || initScreen == null ? "onboard" : "/",
