@@ -1,6 +1,7 @@
 import 'package:afar_cabs_user/sign_in_up_page/view/sign_in_page.dart';
 import 'package:afar_cabs_user/sign_in_up_page/view/sign_up_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../components/custom_rounded_button.dart';
 
@@ -27,14 +28,14 @@ class SignInUpIntro extends StatelessWidget {
                 width: width * 1.0,
               ),
             ),
-            const Text(
-              "Welcome",
+            Text(
+              "welcome".tr,
               style: TextStyle(fontWeight: FontWeight.bold,
                 fontSize: 20.0,
               ),
             ),
-            const Text(
-              "Begin your travel with Afar Cabs in the most safest and leisure way",
+            Text(
+              "welcomeDesc".tr,
               style: TextStyle(fontWeight: FontWeight.bold,
                 fontSize: 18.0,
                 height: 1.5,
@@ -48,7 +49,7 @@ class SignInUpIntro extends StatelessWidget {
                     builder: (context) => SignInPage(),
                   ),
                 );
-              }, child: Text("Sign In"),
+              }, child: Text("signIn".tr),
             ),
             RoundedButtonCustom(
               pressed: () {
@@ -58,7 +59,7 @@ class SignInUpIntro extends StatelessWidget {
                     builder: (context) => SignUpPage(),
                   ),
                 );
-              }, child: Text("Sign Up"),
+              }, child: Text("signUp".tr),
             ),
           ],
         ),

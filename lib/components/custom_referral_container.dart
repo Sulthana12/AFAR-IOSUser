@@ -21,7 +21,7 @@ class ReferralContainer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
           horizontal: 20.0, vertical: 10.0),
       width: size.width * 0.85,
-      height: size.height * 0.23,
+      height: size.height * 0.30,
       decoration: BoxDecoration(
         color: Colors.transparent,
         border: Border.all(color: Colors.grey, width: 2.0),
@@ -31,9 +31,9 @@ class ReferralContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AutoSizeText(
-            "Enter the referral code and get Rs.50 each in your AFAR CABS Wallet",
-            maxLines: 2,
+           AutoSizeText(
+            "popupRefTit".tr,
+            maxLines: 3,
             maxFontSize: 15.0,
             minFontSize: 13.0,
             style: TextStyle(
@@ -44,9 +44,9 @@ class ReferralContainer extends StatelessWidget {
           const SizedBox(
             height: 10.0,
           ),
-          const AutoSizeText(
-            "Apply before your first ride is scheduled",
-            maxLines: 1,
+          AutoSizeText(
+            "popupRefDesc".tr,
+            maxLines: 3,
             style: TextStyle(
               fontSize: 13.0,
               color: Colors.grey,
@@ -58,10 +58,10 @@ class ReferralContainer extends StatelessWidget {
             cursorColor: Colors.black,
             onChanged: (email) {},
             validator: MultiValidator([
-              RequiredValidator(errorText: "You must enter referral code"),
+              RequiredValidator(errorText: "enterRefCode".tr),
             ]),
-            decoration: const InputDecoration(
-              hintText: "Referral code",
+            decoration: InputDecoration(
+              hintText: "referCodeText".tr,
               hintStyle: TextStyle(color: Colors.grey),
             ),
           ),

@@ -54,7 +54,7 @@ class SettingsPage extends StatelessWidget {
                 onTap: () {
                   Provider.of<LanguageChangeProvider>(context, listen: false)
                       .changeLocale("en");
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
                 },
               ),
               ListTile(
@@ -63,7 +63,7 @@ class SettingsPage extends StatelessWidget {
                 onTap: () {
                   Provider.of<LanguageChangeProvider>(context, listen: false)
                       .changeLocale("ta");
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
                 },
               ),
             ],

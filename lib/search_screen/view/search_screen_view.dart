@@ -268,7 +268,7 @@ class SearchScreen extends StatelessWidget {
                                     PlacePicker(
                                   enableMyLocationButton: true,
                                   usePlaceDetailSearch: true,
-                                  autocompleteRadius: 5000,
+                                  autocompleteRadius: 2000,
                                   // strictbounds: true,
                                   // autocompleteOffset: 5000,
                                   region: "in",

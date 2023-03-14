@@ -46,8 +46,8 @@ class SignUpPage extends StatelessWidget {
                     const SizedBox(
                       height: 30.0,
                     ),
-                    const Text(
-                      "Let's Get Started",
+                    Text(
+                      "letStart".tr,
                       style: TextStyle(
                         fontSize: 25.0,
                         fontWeight: FontWeight.w900,
@@ -57,8 +57,8 @@ class SignUpPage extends StatelessWidget {
                     const SizedBox(
                       height: 10.0,
                     ),
-                    const Text(
-                      "Create an account",
+                    Text(
+                      "createAcc".tr,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.grey,
@@ -76,10 +76,10 @@ class SignUpPage extends StatelessWidget {
                       // textAlign: TextAlign.center,
                       onChanged: (email) {},
                       validator: MultiValidator([
-                        EmailValidator(errorText: "Enter a valid email"),
+                        EmailValidator(errorText: "emailErr".tr),
                       ]),
-                      decoration: const InputDecoration(
-                        hintText: "Email Address",
+                      decoration: InputDecoration(
+                        hintText: "email".tr,
                         // contentPadding:
                         //     EdgeInsets.fromLTRB(20.0, 17.5, 20.0, 10.0),
                         hintStyle: TextStyle(color: Colors.grey),
@@ -103,12 +103,12 @@ class SignUpPage extends StatelessWidget {
                         if (phone == null || phone.isEmpty) {
                           return null;
                         } else if (phone.length != 10) {
-                          return "Phone number must be 10 digits";
+                          return "phoneErr".tr;
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                        hintText: "Phone",
+                      decoration: InputDecoration(
+                        hintText: "phone".tr,
                         hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -128,14 +128,14 @@ class SignUpPage extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "Have a referral code? ",
+                            text: "referCode".tr,
                             style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
-                            text: "click here",
+                            text: "clickHere".tr,
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.blue,
@@ -147,7 +147,7 @@ class SignUpPage extends StatelessWidget {
                                   builder: (BuildContext context) =>
                                       AlertDialog(
                                         actionsAlignment: MainAxisAlignment.center,
-                                        title: const Text('Referral Code', textAlign: TextAlign.center,),
+                                        title: Text('referCodeText'.tr, textAlign: TextAlign.center,),
                                         content: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,20 +163,20 @@ class SignUpPage extends StatelessWidget {
                                                   controller.isReferralCorrect.value = true;
                                                 }
                                               } else {
-                                                Get.snackbar("Enter referral code", "It should not be empty!");
+                                                Get.snackbar("enterRefCode".tr, "referCodeErr".tr);
                                               }
 
                                               Navigator.pop(context);
                                             },
-                                            child: const Text('Apply',),
+                                            child: Text('apply'.tr,),
                                           ),
                                         ],
                                       ),
                                 );
                               },
                           ),
-                          const TextSpan(
-                            text: " to enter referral code",
+                          TextSpan(
+                            text: "toEnterRef".tr,
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.black,
@@ -199,11 +199,11 @@ class SignUpPage extends StatelessWidget {
                           /// To check whether the user already exist or not.
                           await apiService.getUserByPhoneOrEmail();
                         } else {
-                          Get.snackbar("Must give anyone correctly",
-                              "You must give either email or phone number.");
+                          Get.snackbar("signUpFormErr".tr,
+                              "signUpFormErrDesc".tr);
                         }
                       },
-                      child: const Text("Sign Up"),
+                      child: Text("signUp".tr),
                     ),
                     const OrDivider(),
                     googleController.isLoading.value

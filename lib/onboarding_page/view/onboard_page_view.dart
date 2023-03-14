@@ -1,5 +1,6 @@
 import 'package:afar_cabs_user/onboarding_page/view/sign_in_up_intro.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 
@@ -16,38 +17,38 @@ class OnboardingScreen extends StatelessWidget {
       // globalBackgroundColor: Colors.pink.shade100,
       pages: [
         PageViewModel(
-          title: "Request & Track Your Ride",
-          body: "Book ride and get picked up at your doorstep",
+          title: "tut1Title".tr,
+          body: "tut1Body".tr,
           image: Image.asset("assets/onboard/tut_1.png", height: 270.0, width: 320.0,),
           decoration: PageDecoration(
               imagePadding: EdgeInsets.only(top: size.height * 0.25),
-              titlePadding: const EdgeInsets.only(bottom: 24.0),
+              titlePadding: const EdgeInsets.only(bottom: 18.0),
               bodyFlex: 0,
-              imageFlex: 0,
+              imageFlex: 3,
               bodyAlignment: Alignment.bottomCenter,
-              imageAlignment: Alignment.center
+              imageAlignment: Alignment.center,
           ),
         ),
         PageViewModel(
-          title: "Select your route",
-          body: "Travel with Safety - Share your locations to Lovable Person",
+          title: "tut2Title".tr,
+          body: "tut2Body".tr,
           image: Image.asset("assets/onboard/tut_2.png", height: 270.0),
           decoration: PageDecoration(
               imagePadding: EdgeInsets.only(top: size.height * 0.25),
-              titlePadding: const EdgeInsets.only(bottom: 24.0),
-              bodyFlex: 0,
-              imageFlex: 0,
+              titlePadding: const EdgeInsets.only(bottom: 18.0),
+              bodyFlex: 1,
+              imageFlex: 2,
               bodyAlignment: Alignment.bottomCenter,
               imageAlignment: Alignment.center
           ),
         ),
         PageViewModel(
-          title: "Express courier delivery",
-          body: "Get your packages delivered at the earliest",
+          title: "tut3Title".tr,
+          body: "tut3Body".tr,
           image: Image.asset("assets/onboard/tut_3.png", height: 270.0),
           decoration: PageDecoration(
               imagePadding: EdgeInsets.only(top: size.height * 0.25),
-              titlePadding: const EdgeInsets.only(bottom: 24.0),
+              titlePadding: const EdgeInsets.only(bottom: 18.0),
               bodyFlex: 0,
               imageFlex: 0,
               bodyAlignment: Alignment.bottomCenter,
@@ -57,9 +58,9 @@ class OnboardingScreen extends StatelessWidget {
       ],
       showNextButton: true,
       showSkipButton: true,
-      done: const Text("Get Started", style: TextStyle(color: Colors.black),),
-      skip: const Text("Skip", style: TextStyle(color: Colors.black),),
-      next: const Text("Next", style: TextStyle(color: Colors.black),),
+      done: Text("getStar".tr, style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis,),),
+      skip: Text("skip".tr, style: TextStyle(color: Colors.black),),
+      next: Text("next".tr, style: TextStyle(color: Colors.black),),
       onDone: () {
         Navigator.push(
           context,

@@ -19,9 +19,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = prefs.getInt("initScreen");
-  await prefs.setInt("initScreen", 1);
-  print('initScreen $initScreen');
+  // initScreen = prefs.getInt("initScreen");
+  // await prefs.setInt("initScreen", 1);
+  // print('initScreen $initScreen');
 
   isLoggedIn = (prefs.getBool('isLoggedIn') == null)
       ? false
