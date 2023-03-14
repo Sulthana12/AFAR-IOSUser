@@ -227,14 +227,21 @@ class GoogleMapHomeController extends GetxController {
 
   Future<void> getDistanceDetailsForApi() async {
     jsonApiResponse = await rideDistanceText() ?? {};
+    if (jsonApiResponse['rows'][0]['elements'][0]['status'] == "OK") {
+      distanceTimeForApi.value =
+          jsonApiResponse['rows'][0]['elements'][0]['duration']['text'];
 
-    distanceTimeForApi.value =
-        jsonApiResponse['rows'][0]['elements'][0]['duration']['text'];
-
-    distanceKmForApi.value =
-        jsonApiResponse['rows'][0]['elements'][0]['distance']['text'];
-
-    print("Km : ${distanceKmForApi.value}");
+      distanceKmForApi.value =
+          jsonApiResponse['rows'][0]['elements'][0]['distance']['text'];
+      print("Km : ${distanceKmForApi.value}");
+      if(double.parse(distanceKmForApi.value.split(" ")[0])<0.5) {
+        Get.snackbar("No Ride Available","Ride distance must be at least 500 meter.");
+        throw Exception('Failed to load predictions');
+      }
+    } else {
+      Get.snackbar("No Ride Available","Cannot book a ride for this location.");
+      throw Exception('Failed to load predictions');
+    }
   }
 
   addPolyLine() {

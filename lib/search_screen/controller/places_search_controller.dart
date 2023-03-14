@@ -2,10 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:google_api_headers/google_api_headers.dart';
-import 'package:google_maps_webservice/places.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -75,11 +72,11 @@ class PlacesSearchController extends GetxController {
 
   void getSuggestion(String input) async {
     String kPLACESAPIKEY = googleApikey.value;
-    String type = '(regions)';
+    String type = '(cities)';
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     Uri request =
-        Uri.parse('$baseURL?input=$input&components=country:in&location=${locController.currentLatitude.value},${locController.currentLongitude.value}&radius=2000&key=$kPLACESAPIKEY&sessiontoken=${sessionToken.value}');
+        Uri.parse('$baseURL?input=$input&components=country:in&location=9.9178296,78.0527829&radius=12000&strictbounds=true&key=$kPLACESAPIKEY&sessiontoken=${sessionToken.value}');
     var response = await http.get(request);
     if (response.statusCode == 200) {
       print(response.body);
