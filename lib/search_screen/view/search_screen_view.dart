@@ -262,11 +262,12 @@ class SearchScreen extends StatelessWidget {
                                     :
                                     PlacePicker(
                                   enableMyLocationButton: true,
+                                  zoomControlsEnabled: true,
                                   usePlaceDetailSearch: true,
                                   autocompleteRadius: 5000,
                                   // strictbounds: true,
                                   // autocompleteOffset: 5000,
-                                  pickArea: CircleArea(center: saveLocationController.initialCameraPosition, radius: 2000),
+                                  pickArea: CircleArea(center: saveLocationController.initialCameraPosition, radius: 20000),
                                   outsideOfPickAreaText: 'We do not provide service for this Area',
                                   region: "in",
                                   apiKey: saveLocationController.googleApikey.value,
