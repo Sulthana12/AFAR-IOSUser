@@ -63,8 +63,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Personal Details",
+                      Text(
+                        "personalDetails".tr,
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 25.0,
@@ -149,13 +149,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         onChanged: (email) {},
                         validator: (firstname) {
                           if (firstname == null || firstname.isEmpty) {
-                            return "Must enter your first name";
+                            return "firNameErr".tr;
                           } else {
                             return null;
                           }
                         },
-                        decoration: const InputDecoration(
-                          hintText: "First Name",
+                        decoration: InputDecoration(
+                          hintText: "firName".tr,
                           hintStyle: TextStyle(color: Colors.grey),
                           border: OutlineInputBorder(
                             borderRadius:
@@ -179,13 +179,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         onChanged: (lastname) {},
                         validator: (lastname) {
                           if (lastname == null || lastname.isEmpty) {
-                            return "Must enter your last name";
+                            return "lasNameErr".tr;
                           } else {
                             return null;
                           }
                         },
-                        decoration: const InputDecoration(
-                          hintText: "Last Name",
+                        decoration: InputDecoration(
+                          hintText: "lasName".tr,
                           hintStyle: TextStyle(color: Colors.grey),
                           border: OutlineInputBorder(
                             borderRadius:
@@ -214,15 +214,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           onChanged: (phone) {},
                           validator: (phone) {
                             if (phone == null || phone.isEmpty) {
-                              return "Must give a phone number";
+                              return "phonNumberErr".tr;
                             } else if (phone.length != 10) {
-                              return "Phone number must be 10 digits";
+                              return "phonNumberErr2".tr;
                             } else {
                               return null;
                             }
                           },
-                          decoration: const InputDecoration(
-                            hintText: "Phone",
+                          decoration: InputDecoration(
+                            hintText: "phonNumber".tr,
                             hintStyle: TextStyle(color: Colors.grey),
                             border: OutlineInputBorder(
                               borderRadius:
@@ -244,8 +244,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         textInputAction: TextInputAction.next,
                         cursorColor: Colors.black,
                         onChanged: (email) {},
-                        decoration: const InputDecoration(
-                          hintText: "Location",
+                        decoration: InputDecoration(
+                          hintText: "location".tr,
                           hintStyle: TextStyle(color: Colors.grey),
                           border: OutlineInputBorder(
                             borderRadius:
@@ -270,13 +270,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           if (pincode == null || pincode.isEmpty) {
                             return null;
                           } else if (pincode.length != 6) {
-                            return "Pincode/Zipcode must be 6 digits";
+                            return "pinCodeErr".tr;
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           errorMaxLines: 2,
-                          hintText: "Pincode/Zipcode(optional)",
+                          hintText: "pinCode".tr,
                           hintStyle: TextStyle(
                             color: Colors.grey,
                           ),
@@ -304,17 +304,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           RegExp regex = RegExp(
                               r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$%^&*~(){}`<>,./]).{8,}$');
                           if (password == null || password.isEmpty) {
-                            return 'Please enter password';
+                            return 'passErr'.tr;
                           } else {
                             if (!regex.hasMatch(password)) {
-                              return 'Must contain 1 uppercase, lowercase, special character and minimum length of 8 characters';
+                              return 'passErr2'.tr;
                             } else {
                               return null;
                             }
                           }
                         },
                         decoration: InputDecoration(
-                          hintText: "Password",
+                          hintText: "pass".tr,
                           errorMaxLines: 3,
                           hintStyle: const TextStyle(color: Colors.grey),
                           border: OutlineInputBorder(
@@ -349,17 +349,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           RegExp regex = RegExp(
                               r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$%^&*~(){}`<>,./]).{8,}$');
                           if (conpass == null || conpass.isEmpty) {
-                            return 'Please enter password';
+                            return 'passErr'.tr;
                           } else {
                             if (!regex.hasMatch(conpass)) {
-                              return 'Must contain 1 uppercase, lowercase, special character and minimum length of 8 characters';
+                              return 'passErr2'.tr;
                             } else {
                               return null;
                             }
                           }
                         },
                         decoration: InputDecoration(
-                          hintText: "Confirm Password",
+                          hintText: "conPass".tr,
                           errorMaxLines: 3,
                           hintStyle: TextStyle(color: Colors.grey),
                           border: OutlineInputBorder(
@@ -402,12 +402,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                             ),
                             Expanded(
                               child: RichText(
-                                maxLines: 3,
+                                maxLines: 8,
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
                                       text:
-                                          "By clicking Sign Up you agree to the following ",
+                                          "conditions1".tr,
                                       style: TextStyle(
                                         fontSize: 15.0,
                                         color: Colors.black
@@ -415,7 +415,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     ),
                                     TextSpan(
                                       text:
-                                      "Terms and Conditions",
+                                      "conditions2".tr,
                                       style: TextStyle(
                                         fontSize: 15.0,
                                         color: Colors.blue,
@@ -429,7 +429,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     ),
                                     TextSpan(
                                       text:
-                                      " without reservation",
+                                      "condition3".tr,
                                       style: TextStyle(
                                         fontSize: 15.0,
                                           color: Colors.black
@@ -467,8 +467,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               await prefs.setBool('isLoggedIn', true);
                             } else {
                               Get.snackbar(
-                                  "Check password and confirm password",
-                                  "Password and confirm password must be same also check Terms and Conditions");
+                                  "chkPassAndConPass".tr,
+                                  "chkPassAndConPassDesc".tr);
                               controller.isLoading.value = false;
                             }
 
@@ -481,7 +481,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     color: Colors.white,
                                   ),
                                 )
-                              : Text("Sign Up"),
+                              : Text("signUp".tr),
                         ),
                       ),
                       const SizedBox(

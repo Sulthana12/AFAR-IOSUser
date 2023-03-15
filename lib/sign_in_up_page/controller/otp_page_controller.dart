@@ -50,12 +50,12 @@ class OtpPageController extends GetxController {
   Future<bool> sendOtp() async {
     responseOtp.value = (await apiService.validateUserMail())!;
     if (responseOtp.value == "" || responseOtp.value == null) {
-      Get.snackbar("Server side error", "Can't able to send OTP.");
+      Get.snackbar("serverSideErr".tr, "serverSideErrMsgOTP".tr);
       print("send otp func: ${responseOtp.value}");
       isLoading.value = false;
       return false;
     } else {
-      Get.snackbar("OTP sent", "OTP has been sent successfully.");
+      Get.snackbar("otpSend".tr, "otpSendDesc".tr);
       isLoading.value = false;
       return true;
     }
@@ -84,7 +84,7 @@ class OtpPageController extends GetxController {
     // responseOtp.value = "testing";
 
     if (responseOtp.value.isNotEmpty) {
-      Get.snackbar("OTP sent", "OTP has been sent successfully.");
+      Get.snackbar("otpSend".tr, "otpSendDesc".tr);
 
       /// Starting the otp timer
       // countDownController.start();
@@ -97,7 +97,7 @@ class OtpPageController extends GetxController {
       isLoading.value = false;
       otpSendFlag.value = true;
     } else {
-      Get.snackbar("OTP sent error", "Some error occurred.");
+      Get.snackbar("otpSendErr".tr, "someErrOcc".tr);
       isLoading.value = false;
     }
   }
@@ -112,12 +112,12 @@ class OtpPageController extends GetxController {
         return true;
       } else {
         isLoading.value = false;
-        Get.snackbar("Wrong OTP", "Please enter the correct OTP which is send in +91 ${mailPhoneController.controllerPhone.value}");
+        Get.snackbar("wrongOTP".tr, "wrongOTPDesc".tr + mailPhoneController.controllerPhone.value);
         return false;
       }
     } else {
       isLoading.value = false;
-      Get.snackbar("Time is exceeded", "Please try to enter the correct OTP on time!");
+      Get.snackbar("timeExceed".tr, "timeExceedErr".tr);
       return false;
     }
   }

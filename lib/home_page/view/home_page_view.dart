@@ -338,7 +338,7 @@ class HomePage extends StatelessWidget {
                                       selected: homeChipController
                                           .preBookSelected.value,
                                       label: Text(
-                                        'Pre-book',
+                                        'Out-Station',
                                         style: TextStyle(
                                             color: homeChipController
                                                     .preBookSelected.value

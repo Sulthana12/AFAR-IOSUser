@@ -2,6 +2,7 @@ import 'package:afar_cabs_user/api_constants/api_services.dart';
 import 'package:afar_cabs_user/sign_in_up_page/controller/sign_in_controller.dart';
 import 'package:afar_cabs_user/sign_in_up_page/view/login_using_otp_page.dart';
 import 'package:afar_cabs_user/sign_in_up_page/view/sign_up_page.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -53,20 +54,25 @@ class SignInPage extends StatelessWidget {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      const Text(
-                        "Welcome Back!",
+                      AutoSizeText(
+                        "welcomeBack".tr,
+                        minFontSize: 20.0,
+                        maxFontSize: 25.0,
                         style: TextStyle(
-                          fontSize: 25.0,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.8,
                         ),
                       ),
-                      const Text(
-                        "Login to your existing account",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20.0,
-                          letterSpacing: 0.8,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: AutoSizeText(
+                          "welcomeBackMsg".tr,
+                          minFontSize: 15.0,
+                          maxFontSize: 20.0,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            letterSpacing: 0.8,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -80,11 +86,11 @@ class SignInPage extends StatelessWidget {
                         onChanged: (email) {},
                         validator: MultiValidator([
                           RequiredValidator(
-                              errorText: "Must enter an email address/phone number"),
+                              errorText: "emailOrPhoneErr".tr),
                           // EmailValidator(errorText: "Enter a valid email"),
                         ]),
-                        decoration: const InputDecoration(
-                          hintText: "Email Address or Phone number",
+                        decoration: InputDecoration(
+                          hintText: "emailOrPhoneNum".tr,
                           hintStyle: TextStyle(color: Colors.grey),
                           border: OutlineInputBorder(
                             borderRadius:
@@ -107,10 +113,10 @@ class SignInPage extends StatelessWidget {
                         onChanged: (password) {},
                         validator: MultiValidator([
                           RequiredValidator(
-                              errorText: "Must enter correct password"),
+                              errorText: "signInPassErr".tr),
                         ]),
                         decoration: InputDecoration(
-                          hintText: "Password",
+                          hintText: "pass".tr,
                           hintStyle: TextStyle(color: Colors.grey),
                           border: OutlineInputBorder(
                             borderRadius:
@@ -140,8 +146,8 @@ class SignInPage extends StatelessWidget {
                           children: <Widget>[
                             GestureDetector(
                               onTap: () => Get.to(() => ForgotPasswordPage()),
-                              child: const Text(
-                                "Forgot password?",
+                              child: Text(
+                                "forgotPass".tr,
                                 style: TextStyle(
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold,
@@ -171,18 +177,20 @@ class SignInPage extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                 )
-                              : const Text("Sign In"),
+                              : Text("signIn".tr),
                         ),
                       ),
                       const OrDivider(),
                       TextButton(
                         onPressed: () => Get.to(() => LoginUsingOtp()),
-                        child: const Text(
-                          "Login using OTP",
+                        child: AutoSizeText(
+                          "loginUsinOtp".tr,
+                          maxLines: 1,
+                          minFontSize: 10.0,
+                          maxFontSize: 20.0,
                           style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
                           ),
                         ),
                       ),

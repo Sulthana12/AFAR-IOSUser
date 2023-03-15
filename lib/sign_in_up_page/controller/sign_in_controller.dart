@@ -57,7 +57,7 @@ class LoginMailPhoneController extends GetxController {
 
       await prefs.setBool('isLoggedIn', true);
 
-      Get.snackbar("Logged in successfully.", "Welcome to afar cabs!");
+      Get.snackbar("loginSuccess".tr, "loginSuccessDesc".tr);
 
       isLoading.value = false;
 
@@ -65,7 +65,7 @@ class LoginMailPhoneController extends GetxController {
 
       update();
     } else {
-      Get.snackbar("Register to AFAR CABS", "First register and then login to proceed");
+      Get.snackbar("loginAlrUsrExiErr".tr, "loginAlrUsrExiErrDesc".tr);
       isLoading.value = false;
     }
   }

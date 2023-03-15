@@ -50,7 +50,7 @@ class ApiService {
       }
     } catch (e) {
       log(e.toString());
-      Get.snackbar("Some error occurred.", e.toString());
+      Get.snackbar("someErrOcc".tr, e.toString());
     }
     return null;
   }
@@ -68,7 +68,7 @@ class ApiService {
       }
     } catch (e) {
       log(e.toString());
-      Get.snackbar("Some error occurred.", e.toString());
+      Get.snackbar("someErrOcc".tr, e.toString());
     }
     return null;
   }
@@ -106,7 +106,7 @@ class ApiService {
       }
     } catch (e) {
       log(e.toString());
-      Get.snackbar("Some error occurred.", e.toString());
+      Get.snackbar("someErrOcc".tr, e.toString());
     }
     return null;
   }
@@ -159,8 +159,8 @@ class ApiService {
       print(response.body);
 
       if (response.statusCode == 200) {
-        Get.snackbar("User Already Exist",
-            "Try to Login or if you forgot password then set a new password!");
+        Get.snackbar("userAlrExis".tr,
+            "userAlrExisDesc".tr);
       } else {
         Get.to(() => MailOrPhoneVerify());
       }
@@ -183,8 +183,8 @@ class ApiService {
       if (response.statusCode == 200) {
         return true;
       } else {
-        Get.snackbar("Try to register first",
-            "No user available for the given credentials");
+        Get.snackbar("regErr".tr,
+            "regErrDesc".tr);
         return false;
       }
     } catch (e) {
@@ -202,13 +202,13 @@ class ApiService {
       print(response.body);
 
       if (response.statusCode == 200) {
-        Get.snackbar("Referral code added",
-            "Referral code is added successfully to your account.");
+        Get.snackbar("refCodeAdded".tr,
+            "refCodeAddedDesc".tr);
         return true;
       } else {
         mailPhoneController.clearReferral();
-        Get.snackbar("Referral code is invalid",
-            "Check and enter a correct referral code.");
+        Get.snackbar("refCodeErr".tr,
+            "refCodeErrDesc".tr);
         return false;
       }
     } catch (e) {
@@ -251,8 +251,8 @@ class ApiService {
         if (response.statusCode == 200) {
           return response.body;
         } else {
-          Get.snackbar("Server error in sending OTP",
-              "Some error in the server side while sending OTP.");
+          Get.snackbar("otpServerErr".tr,
+              "otpServerErrDesc".tr);
         }
       } catch (e) {
         print(e);
@@ -270,8 +270,8 @@ class ApiService {
         if (response.statusCode == 200) {
           return response.body;
         } else {
-          Get.snackbar("Server error in sending OTP",
-              "Some error in the server side while sending OTP.");
+          Get.snackbar("otpServerErr".tr,
+              "otpServerErrDesc".tr);
         }
       } catch (e) {
         print(e);
@@ -289,8 +289,8 @@ class ApiService {
     if (userModel == null) {
       print("error");
       res = "error";
-      Get.snackbar("Register or enter correct credentials",
-          "Enter correct credentials or else new user means register!");
+      Get.snackbar("regOrEnterNewCre".tr,
+          "regOrEnterNewCreDesc".tr);
       return res;
     } else {
       if (userModel[0].userTypeFlg.toString() == "U" ||
@@ -319,7 +319,7 @@ class ApiService {
       }
     } catch (e) {
       log(e.toString());
-      Get.snackbar("Some error occurred.", e.toString());
+      Get.snackbar("someErrOcc".tr, e.toString());
     }
     return null;
   }
@@ -343,7 +343,7 @@ class ApiService {
       }
     } catch (e) {
       log(e.toString());
-      Get.snackbar("Some error occurred.", e.toString());
+      Get.snackbar("someErrOcc".tr, e.toString());
     }
     return null;
   }

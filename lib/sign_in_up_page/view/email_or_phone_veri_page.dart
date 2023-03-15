@@ -44,8 +44,8 @@ class MailOrPhoneVerify extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  const Text(
-                    "Let's Verify",
+                  Text(
+                    "letsVerify".tr,
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.w900,
@@ -55,8 +55,8 @@ class MailOrPhoneVerify extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  const Text(
-                    "Choose email address or mobile number to recieve OTP to verify account",
+                  Text(
+                    "emailOrMobileVeri".tr,
                     style: TextStyle(
                       fontSize: 15.0,
                       color: Colors.grey,
@@ -142,9 +142,9 @@ class MailOrPhoneVerify extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => VerifyOtpPage(
-                                    title: "Verify your Email",
+                                    title: "verifyEmail".tr,
                                     message:
-                                    "   Please check your email account and enter the OTP received",
+                                    "verifyEmailDesc".tr,
                                     imagePath: "assets/sign_in_up/mail_verify.png",
                                   ),
                                 ),
@@ -157,9 +157,9 @@ class MailOrPhoneVerify extends StatelessWidget {
                               otpController.isLoading.value = false;
                               Get.to(
                                 () => VerifyOtpPage(
-                                  title: "Verification Code",
+                                  title: "verifyPhone".tr,
                                   message:
-                                      "OTP received in the given phone number",
+                                      "verifyPhoneDesc".tr,
                                   imagePath: "assets/images/mob-otp-ver.png",
                                 ),
                               );
@@ -174,7 +174,7 @@ class MailOrPhoneVerify extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text("Continue"),
+                            : Text("continue".tr),
                       ),
                     ),
                   ),

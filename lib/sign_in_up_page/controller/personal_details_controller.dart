@@ -126,8 +126,8 @@ class PersonalDetailsController extends GetxController {
       isLoading.value = true;
       http.Response response = (await apiService.registerUserDetails(body))!;
       if (response.statusCode == 200) {
-        Get.snackbar("Registered successfully",
-            "You've mobile number have been registered successfully!");
+        Get.snackbar("regisSuccessMsg".tr,
+            "regisSuccessMsgDesc".tr);
 
         print("Out user ID lUO" + json.decode(response.body)[0]["outUserId"]);
 
@@ -151,8 +151,8 @@ class PersonalDetailsController extends GetxController {
         clearInputText();
       } else {
         // isAlreadyRegis.value = true;
-        Get.snackbar("Welcome AFAR USER",
-            "Welcome back AFAR User! We are pleased to have you here!!!");
+        Get.snackbar("welcomeAfarUser".tr,
+            "welcomeAfarUserDesc".tr);
 
         print("Out user ID lUO" + json.decode(response.body)[0]["outUserId"]);
 
@@ -201,7 +201,7 @@ class PersonalDetailsController extends GetxController {
         final data = jsonDecode(response.body);
 
         Get.snackbar(
-            "Registered successfully", "You've been registered successfully!");
+            "regisSuccessMsg".tr, "regisSuccessMsgDesc2".tr);
 
         String? localUserID;
         int? initScreen;
@@ -233,8 +233,8 @@ class PersonalDetailsController extends GetxController {
         clearInputText();
       } else {
         isAlreadyRegis.value = true;
-        Get.snackbar("Email-ID / Phone Number already registered",
-            "Please Sign-In Or Reset Your Password!!!");
+        Get.snackbar("mailOrPhoneAlrRegis".tr,
+            "mailOrPhoneAlrRegisDesc".tr);
       }
       print(response.body);
       isLoading.value = false;

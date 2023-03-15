@@ -6,6 +6,7 @@ import 'package:afar_cabs_user/home_page/view/home_page_view.dart';
 import 'package:afar_cabs_user/sign_in_up_page/controller/personal_details_controller.dart';
 import 'package:afar_cabs_user/sign_in_up_page/controller/sign_up_email_phone_controller.dart';
 import 'package:afar_cabs_user/sign_in_up_page/view/personal_details_page.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
@@ -78,10 +79,10 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                     height: size.height * 0.3,
                     width: size.width * 1.0,
                   ),
-                  Text(
+                  AutoSizeText(
                     widget.title,
+                    maxFontSize: 30.0,
                     style: const TextStyle(
-                      fontSize: 30.0,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.4,
                     ),
@@ -111,7 +112,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                     defaultPinTheme: defaultPinTheme,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Enter received OTP to proceed";
+                        return "otpProceedMsg".tr;
                       } else {
                         return null;
                       }
@@ -203,7 +204,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                           if (controller.verifyOtp()) {
                             Get.offAll(() => PersonalDetails());
                           } else {
-                            Get.snackbar("Enter received OTP",
+                            Get.snackbar("otpProceedMsg".tr,
                                 "Please enter the OTP received in ${mailPhoneController.controllerMail.value} to proceed.");
                             controller.isLoading.value = false;
                           }
@@ -231,7 +232,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                               Get.offAll(() => PersonalDetails());
                             }
                           } else {
-                            Get.snackbar("Enter received OTP",
+                            Get.snackbar("otpProceedMsg".tr,
                                 "Please enter the OTP received in +91 ${mailPhoneController.controllerPhone.value} to proceed.");
                             controller.isLoading.value = false;
                           }
@@ -266,7 +267,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                         }
                         controller.isLoading.value = false;
                       },
-                      child: const Text("Verify"),
+                      child: Text("verify".tr),
                     );
                   }),
                   otpController.otpTimeCompleted.value
@@ -279,8 +280,8 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                         await otpController.sendOtpPhoneNumber("login");
                       }
                     },
-                    child: const Text(
-                      "Resend",
+                    child: Text(
+                      "resend".tr,
                       style: TextStyle(
                         color: Colors.black,
                       ),
