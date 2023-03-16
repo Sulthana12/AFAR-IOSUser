@@ -60,6 +60,8 @@ dependencies:
   flutter_native_contact_picker: ^0.0.3
   # it contains some cool predefined widgets
   getwidget: ^3.0.1
+  # used for storing images in cache
+  cached_network_image: ^3.2.3
   # below package is used for email otp verification
   email_auth: ^1.0.0
   # firebase

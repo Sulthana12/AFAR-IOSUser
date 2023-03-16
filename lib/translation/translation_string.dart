@@ -102,6 +102,7 @@ class TransalationString extends Translations {
           'chkPassAndConPass': 'Check password and confirm password',
           'chkPassAndConPassDesc': 'Password and confirm password must be same also check Terms and Conditions',
 
+          // Signin page
           'welcomeBack': 'Welcome Back!',
           'welcomeBackMsg': 'Login to your existing account',
           'emailOrPhoneErr': 'Must enter an email address/phone number',
@@ -114,6 +115,7 @@ class TransalationString extends Translations {
           'loginSuccessDesc': 'Welcome to afar cabs!',
           'loginAlrUsrExiErr': 'Register to AFAR CABS',
           'loginAlrUsrExiErrDesc': 'First register and then login to proceed',
+          // Login using otp
         },
 
         'ta_IN': {
@@ -215,6 +217,7 @@ class TransalationString extends Translations {
           'chkPassAndConPass': 'கடவுச்சொல்லை சரிபார்த்து கடவுச்சொல்லை உறுதிப்படுத்தவும்',
           'chkPassAndConPassDesc': 'கடவுச்சொல் மற்றும் உறுதிப்படுத்தல் கடவுச்சொல் ஒரே மாதிரியாக இருக்க வேண்டும் மேலும் விதிமுறைகள் மற்றும் நிபந்தனைகளை சரிபார்க்கவும்',
 
+          // Sigin page
           'welcomeBack': 'மீண்டும் வருக!',
           'welcomeBackMsg': 'ஏற்கனவே உள்ள உங்கள் கணக்கில் உள்நுழைக',
           'emailOrPhoneErr': 'மின்னஞ்சல் முகவரி/தொலைபேசி எண்ணை உள்ளிட வேண்டும்',
@@ -227,6 +230,8 @@ class TransalationString extends Translations {
           'loginSuccessDesc': 'AFAR CABS க்கு வரவேற்கிறோம்!',
           'loginAlrUsrExiErr': 'AFAR CABS இல் பதிவு செய்யவும்',
           'loginAlrUsrExiErrDesc': 'முதலில் பதிவுசெய்து பின் உள்நுழையவும்',
+
+          // Login using otp
         },
 
         //add more language here

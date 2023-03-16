@@ -1,6 +1,7 @@
 import 'package:afar_cabs_user/constants/colors/colors.dart';
 import 'package:afar_cabs_user/home_page/controller/vehicles_controller.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -96,7 +97,7 @@ class CustomAppBar extends StatelessWidget {
                           child: CircularProgressIndicator(color: primaryColor),
                         )
                       : ListView.builder(
-                        padding: EdgeInsets.zero,
+                          padding: EdgeInsets.zero,
                           itemCount: controller.vehiclesModel!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return TextButton(
@@ -139,14 +140,18 @@ class CustomAppBar extends StatelessWidget {
                                                   homeChipController
                                                       .preBookSelected.value)
                                           ? BoxDecoration(
-                                              color: controller
+                                              border: controller
                                                           .selectedVehicleIndex
                                                           .value ==
                                                       controller
                                                           .vehiclesModel![index]
                                                           .settingsId
-                                                  ? vehiclesContainerColor3
-                                                  : Colors.transparent,
+                                                  ? Border.all(
+                                                      width: 2,
+                                                      color:
+                                                          Colors.grey.shade900,
+                                                    )
+                                                  : null,
                                               borderRadius:
                                                   BorderRadius.circular(10.0),
                                             )
@@ -159,11 +164,13 @@ class CustomAppBar extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Image.network(
-                                        controller.vehiclesModel![index]
+                                      CachedNetworkImage(
+                                        imageUrl: controller.vehiclesModel![index]
                                             .fileLocation!,
                                         height: height * 0.04,
                                         width: width * 0.1,
+                                        placeholder: (context, url) => Container(color:Colors.black12),
+                                        errorWidget: (context, url, error) => Icon(Icons.error),
                                       ),
                                       Text(
                                         controller.vehiclesModel![index]
